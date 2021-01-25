@@ -1,38 +1,36 @@
 <template>
-  <!--popConfirm形式-->
-  <el-popconfirm
-    v-if="confirmType === 'pop'"
-    v-bind="popConfig"
-    @confirm="$emit('confirm')"
-    @cancel="$emit('cancel')"
+  <component
+    :is="content?'el-tooltip':'pl-wrapper'"
+    v-bind="content?calTipConfig:{}"
   >
-    <template #reference>
-      <el-button
-        v-loading.fullscreen.lock="fullscreenLoading"
-        v-bind="$attrs"
-        :type="type"
-      >
-        <slot/>
-      </el-button>
-    </template>
-  </el-popconfirm>
-  <el-button
-    v-else
-    @click.stop="handleClick"
-    v-loading.fullscreen.lock="fullscreenLoading"
-    v-bind="$attrs"
-    :loading="loading"
-    :type="type">
-    <slot></slot>
-  </el-button>
+    <component
+      :is="confirmType === 'pop'?'el-popconfirm':'pl-wrapper'"
+      v-bind="confirmType === 'pop'?popConfig:{}"
+      @confirm="handlePopConfirm"
+      @cancel="$emit('cancel')"
+    >
+      <template v-slot:[slotName]>
+        <el-button
+          @click.stop="handleClick"
+          v-loading.fullscreen.lock="fullscreenLoading"
+          v-bind="$attrs"
+          :loading="loading"
+          :type="type">
+          <slot></slot>
+        </el-button>
+      </template>
+    </component>
+  </component>
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, computed } from 'vue'
 import { ElMessageBox } from 'element-plus'
+import debounce from 'lodash/debounce'
 
 export default defineComponent({
   name: 'pl-button',
+  inheritAttrs: false,
   emits: ['click', 'confirm', 'cancel'],
   props: {
     autoLoading: {
@@ -58,11 +56,34 @@ export default defineComponent({
     type: {
       type: String,
       default: null
+    },
+    content: {
+      type: String,
+      default: null
+    },
+    tipConfig: {
+      type: Object,
+      default: null
+    },
+    debounce: {
+      type: [Number, Boolean],
+      default: false
     }
   },
   setup (props, { emit }) {
     const loading = ref(false)
     const fullscreenLoading = ref(false)
+    const calTipConfig = computed(() => {
+      return {
+        effect: 'dark',
+        placement: 'top',
+        content: props.content,
+        ...props.tipConfig
+      }
+    })
+    const slotName = computed(() => {
+      return props.confirmType === 'pop' ? 'reference' : 'default'
+    })
     const clickDone = () => {
       loading.value = false
       fullscreenLoading.value = false
@@ -74,13 +95,6 @@ export default defineComponent({
       if (props.autoFullScreenLoading) {
         fullscreenLoading.value = true
       }
-    }
-    const handleClick = () => {
-      clickStart()
-      if (props.confirmType === 'confirm') {
-        handleConfirm()
-      }
-      emit('click', clickDone)
     }
     const handleConfirm = () => {
       const {
@@ -95,11 +109,25 @@ export default defineComponent({
         cancelButtonText,
         type
       }).then(() => {
-        emit('confirm')
+        clickStart()
+        emit('confirm', clickDone)
       }).catch(() => {
         emit('cancel')
       })
     }
+    const handleClick = () => {
+      if (props.confirmType === 'pop') {
+        return
+      }
+      if (props.confirmType === 'confirm') {
+        handleConfirm()
+      } else {
+        clickStart()
+        emit('click', clickDone)
+      }
+    }
+    const debounceTime = typeof props.debounce === 'number' ? props.debounce : 500
+    const debounceClick = debounce(handleClick, debounceTime, { leading: true })
     const handlePopConfirm = () => {
       if (props.confirmType === 'confirm') {
         handleConfirm()
@@ -109,10 +137,12 @@ export default defineComponent({
       emit('confirm', clickDone)
     }
     return {
-      handleClick,
+      calTipConfig,
+      handleClick: props.debounce ? debounceClick : handleClick,
       handlePopConfirm,
       loading,
-      fullscreenLoading
+      fullscreenLoading,
+      slotName
     }
   }
 })

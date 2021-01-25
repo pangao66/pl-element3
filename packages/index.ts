@@ -1,8 +1,10 @@
 import type { App } from 'vue'
 import PlButton from './components/button/index'
+import PlWrapper from './components/wrapper'
 
 const components = [
-  PlButton
+  PlButton,
+  PlWrapper
 ]
 // const install = {
 //   install: function (app: App, opts = {}) {
@@ -19,6 +21,7 @@ const install = (app: App): void => {
 // export { utils }
 export {
   PlButton,
+  PlWrapper,
   install
 }
 

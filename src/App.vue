@@ -1,11 +1,6 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link>
-    |
-    <router-link to="/about">About</router-link>
-  </div>
-  <router-view/>
-  <pl-button @click="handleClick" auto-loading>按钮</pl-button>
+  <el-link href="/#/button">button</el-link>
+  <router-view></router-view>
 </template>
 <script>
 export default {

@@ -6,27 +6,40 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs",
     "lib-cli": "vue-cli-service build --target lib --name pl-element ./packages/index.ts "
   },
   "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.14.0",
+    "@typescript-eslint/parser": "^4.14.0",
     "core-js": "^3.6.5",
-    "element-plus": "^1.0.1-beta.27",
+    "element-plus": "^1.0.2-beta.29",
     "vue": "^3.0.5",
     "vue-router": "^4.0.0",
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@types/lodash": "^4.14.168",
+    "@vue/cli-plugin-babel": "~4.5.11",
+    "@vue/cli-plugin-eslint": "~4.5.11",
     "@vue/cli-plugin-router": "~4.5.0",
-    "@vue/cli-plugin-typescript": "~4.5.0",
-    "@vue/cli-plugin-vuex": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
+    "@vue/cli-plugin-typescript": "~4.5.11",
+    "@vue/cli-plugin-vuex": "~4.5.11",
+    "@vue/cli-service": "~4.5.11",
     "@vue/compiler-sfc": "^3.0.0",
     "@vue/eslint-config-standard": "^5.1.2",
     "@vue/eslint-config-typescript": "^5.0.2",
+    "eslint": "^6.7.2",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "eslint-plugin-vue": "^7.0.0-0",
+    "lodash": "^4.17.20",
     "stylus": "^0.54.7",
     "stylus-loader": "^3.0.2",
-    "typescript": "~3.9.3"
+    "typescript": "~3.9.3",
+    "vuepress": "^2.0.0-alpha.19"
   }
 }
