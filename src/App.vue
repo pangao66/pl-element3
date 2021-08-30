@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import locale from 'element-plus/lib/locale/lang/zh-cn';
-import PlWrapper from "./pl-element/pl-wrapper.vue";
+// import PlWrapper from "./pl-element/pl-wrapper.vue";
 // import type { Name } from './views/Home'
 </script>
 <template>

@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, reactive, ref, toRefs } from 'vue';
 import debounceFn from 'lodash/debounce'
 import PlWrapper from "../pl-wrapper.vue";
 import { ElMessageBox } from "element-plus";
@@ -33,10 +33,10 @@ interface PlButtonProps {
   // debounce?: boolean | import("lodash").DebouncedFunc<(index: any) => void>
   debounce?: boolean
   confirmType?: 'messagebox' | 'pop'
-  popConfirmConfig?: Record<string, any>
-  messageBoxConfig?: Record<string, any>
+  popConfirmConfig?: any
+  messageBoxConfig?: any
   tipContent?: string
-  tipConfig?: Record<string, any>
+  tipConfig?: any
 }
 
 const props = withDefaults(defineProps<PlButtonProps>(), {
@@ -57,59 +57,59 @@ const emit = defineEmits<{
 
 const loadingStatus = ref(false);
 const fullscreenLoadingStatus = ref(false);
-const {
-  autoLoading, autoFullscreenLoading, debounce, confirmType, popConfirmConfig, messageBoxConfig, tipContent, tipConfig
-} = props;
+// const {
+//   autoLoading, autoFullscreenLoading, debounce, confirmType, popConfirmConfig, messageBoxConfig, tipContent, tipConfig
+// } = reactive(props);
 const slotName = computed(() => {
-  return confirmType === 'pop' ? 'reference' : 'default'
+  return props.confirmType === 'pop' ? 'reference' : 'default'
 })
 const currentComponent = computed(() => {
-  if (tipContent) {
+  if (props.tipContent) {
     return 'el-tooltip'
   }
-  if (confirmType === 'pop') {
+  if (props.confirmType === 'pop') {
     return 'el-popconfirm'
   }
   return PlWrapper
 })
 const currentComponentConfig = computed(() => {
-  if (tipContent) {
+  if (props.tipContent) {
     return {
-      content: tipContent,
+      content: props.tipContent,
       effect: 'dark',
       placement: 'top',
-      ...tipConfig
+      ...props.tipConfig
     }
   }
-  if (confirmType === 'pop') {
-    return popConfirmConfig
+  if (props.confirmType === 'pop') {
+    return props.popConfirmConfig
   }
   return {}
 })
 
 function handleClick() {
   // 防抖
-  if (debounce) {
+  if (props.debounce) {
     debounceClick()
     return
   }
   // popconfirm
-  if (confirmType === 'pop') {
+  if (props.confirmType === 'pop') {
     return
   }
   // messagebox confirm
-  if (confirmType === 'messagebox') {
+  if (props.confirmType === 'messagebox') {
     messageBoxConfirm()
     return
   }
   // 普通按钮点击自动全屏loading
-  if (autoFullscreenLoading) {
+  if (props.autoFullscreenLoading) {
     fullscreenLoadingStatus.value = true;
     emit('click', clickHideLoading);
     return;
   }
   // 普通按钮点击自动loading
-  if (autoLoading) {
+  if (props.autoLoading) {
     loadingStatus.value = true;
     emit('click', clickHideLoading);
   }
@@ -123,13 +123,13 @@ function clickHideLoading() {
 
 // 防抖点击
 const debounceClick = debounceFn(() => {
-  emit('click')
+  emit('click', clickHideLoading)
 }, 500, {
   leading: true
 })
 // confirm
 const confirmClick = () => {
-  if (autoFullscreenLoading) {
+  if (props.autoFullscreenLoading) {
     fullscreenLoadingStatus.value = true
   }
   emit('confirm', clickHideLoading)
@@ -141,7 +141,7 @@ const messageBoxConfirm = () => {
     confirmButtonText = '确定',
     cancelButtonText = '取消',
     type = 'warning'
-  } = messageBoxConfig
+  } = props.messageBoxConfig || {}
   ElMessageBox.confirm(message, title, {
     confirmButtonText,
     cancelButtonText,

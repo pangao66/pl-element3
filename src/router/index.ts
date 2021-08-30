@@ -13,6 +13,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/button-demo.vue')
   },
   {
+    path: '/input',
+    name: 'input',
+    component: () => import('../views/input-demo.vue')
+  },
+  {
     path: '/about',
     name: 'About',
     // route level code-splitting

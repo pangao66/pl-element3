@@ -4,11 +4,15 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:serve": "vitepress serve docs"
   },
   "dependencies": {
     "@element-plus/icons": "^0.0.11",
     "element-plus": "^1.1.0-beta.7",
+    "number-precision": "^1.5.1",
     "vue": "^3.2.6",
     "vue-router": "^4.0.11"
   },
@@ -24,6 +28,7 @@
     "typescript": "^4.3.2",
     "vite": "^2.5.1",
     "vite-plugin-element-plus": "^0.0.9",
+    "vitepress": "^0.16.1",
     "vue-tsc": "^0.3.0"
   }
 }
