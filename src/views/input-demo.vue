@@ -3,6 +3,8 @@
   <pl-input v-model="str1"></pl-input>
   使用v-model修饰符
   <pl-input v-model.upperCase="str2"></pl-input>
+  <pl-input v-model.lowerCase="str2"></pl-input>
+  <pl-input v-model.lowerCase="str2"></pl-input>
   使用transfer属性
   <pl-input v-model="str3" transfer="lowerCase"></pl-input>
   <pl-input v-model="num1" transfer="number"></pl-input>
@@ -10,7 +12,7 @@
   <pl-input v-model="num2" transfer="cent"></pl-input>
 </template>
 <script lang="ts" setup>
-import PlInput from "../pl-element/input/pl-input.vue";
+import PlInput from "../../packages/pl-element/input/pl-input.vue";
 import { ref } from "vue";
 
 const str1 = ref('')

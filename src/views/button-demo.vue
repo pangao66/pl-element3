@@ -13,7 +13,7 @@
   <pl-button tip-content="这是说明文字">tooltip</pl-button>
 </template>
 <script lang="ts" setup>
-import PlButton from "../pl-element/button/button.vue";
+import PlButton from "../../packages/pl-element/button/button.vue";
 import { ElMessage } from "element-plus/lib/components/message";
 
 

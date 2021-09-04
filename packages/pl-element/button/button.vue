@@ -21,8 +21,8 @@
 
 <script lang="ts" setup>
 import { computed, reactive, ref, toRefs } from 'vue';
-import debounceFn from 'lodash/debounce'
-import PlWrapper from "../pl-wrapper.vue";
+import { debounce as debounceFn } from 'lodash-es'
+import PlWrapper from "../wrapper/wrapper.vue";
 import { ElMessageBox } from "element-plus";
 
 // import { DebouncedFunc } from '@types/lodash/common/function'
@@ -50,7 +50,7 @@ const props = withDefaults(defineProps<PlButtonProps>(), {
   tipConfig: {}
 });
 const emit = defineEmits<{
-  (e: 'click', cb: () => void): void
+  (e: 'click', cb: () => void, event: MouseEvent): void
   (e: 'confirm', cb: () => void): void
   (e: 'cancel'): void
 }>();
@@ -87,10 +87,10 @@ const currentComponentConfig = computed(() => {
   return {}
 })
 
-function handleClick() {
+function handleClick(e: MouseEvent) {
   // 防抖
   if (props.debounce) {
-    debounceClick()
+    debounceClick(e)
     return
   }
   // popconfirm
@@ -105,13 +105,13 @@ function handleClick() {
   // 普通按钮点击自动全屏loading
   if (props.autoFullscreenLoading) {
     fullscreenLoadingStatus.value = true;
-    emit('click', clickHideLoading);
+    emit('click', clickHideLoading, e);
     return;
   }
   // 普通按钮点击自动loading
   if (props.autoLoading) {
     loadingStatus.value = true;
-    emit('click', clickHideLoading);
+    emit('click', clickHideLoading, e);
   }
 }
 
@@ -122,8 +122,8 @@ function clickHideLoading() {
 }
 
 // 防抖点击
-const debounceClick = debounceFn(() => {
-  emit('click', clickHideLoading)
+const debounceClick = debounceFn((e: MouseEvent) => {
+  emit('click', clickHideLoading, e)
 }, 500, {
   leading: true
 })

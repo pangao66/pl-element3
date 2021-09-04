@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import locale from 'element-plus/lib/locale/lang/zh-cn';
-// import PlWrapper from "./pl-element/pl-wrapper.vue";
-// import type { Name } from './views/Home'
+import { add, multiply, times } from 'lodash'
+
+console.log(add(0.1, 0.2))
+console.log(multiply(0.14, 100))
 </script>
 <template>
   <el-config-provider :locale="locale">

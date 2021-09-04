@@ -14,7 +14,7 @@ import NP from 'number-precision'
 interface Props {
   modelValue: string | number
   trim?: boolean
-  transfer?: ((str: string | number) => string | number) | 'upperCase' | 'lowerCase' | 'number' | 'cent';
+  transfer?: ((str: string | number) => string | number) | 'upperCase' | 'lowerCase' | 'number' | 'cent'
   modelModifiers?: Record<string, any>
 }
 
@@ -29,14 +29,10 @@ const tempNum = ref<string | number>(0)
 watch(() => props.modelValue, (cur, prev) => {
   if (props.transfer === 'cent') {
     tempNum.value = NP.round(NP.divide(cur, 100) || 0, 2)
-    console.log(tempNum.value)
   }
 }, { immediate: true })
 const calValue = computed({
   get: () => {
-    // if (props.transfer === 'cent') {
-    //   return NP.divide(props.modelValue, 100)
-    // }
     return props.modelValue
   },
   set: (val: string | number) => {

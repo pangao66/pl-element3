@@ -1,9 +1,21 @@
 {
   "name": "pl-element3",
   "version": "0.0.0",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/my-lib.umd.js",
+  "module": "./dist/my-lib.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/my-lib.es.js",
+      "require": "./dist/my-lib.umd.js"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
+    "build-lib": "vite build",
     "serve": "vite preview",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
@@ -11,24 +23,25 @@
   },
   "dependencies": {
     "@element-plus/icons": "^0.0.11",
-    "element-plus": "^1.1.0-beta.7",
+    "element-plus": "^1.1.0-beta.8",
     "number-precision": "^1.5.1",
-    "vue": "^3.2.6",
+    "vite-plugin-dts": "^0.7.0",
+    "vue": "^3.2.8",
     "vue-router": "^4.0.11"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.172",
+    "@types/lodash-es": "^4.17.4",
     "@types/node": "^16.7.4",
     "@vitejs/plugin-vue": "^1.6.0",
     "@vitejs/plugin-vue-jsx": "^1.1.7",
-    "@vue/compiler-sfc": "^3.0.6",
-    "lodash": "^4.17.21",
+    "@vue/compiler-sfc": "^3.2.8",
+    "lodash-es": "^4.17.21",
     "sass": "^1.38.2",
     "stylus": "^0.54.8",
     "typescript": "^4.3.2",
     "vite": "^2.5.1",
     "vite-plugin-element-plus": "^0.0.9",
-    "vitepress": "^0.16.1",
+    "vitepress": "^0.17.0",
     "vue-tsc": "^0.3.0"
   }
 }

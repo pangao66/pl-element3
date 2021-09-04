@@ -2,15 +2,16 @@
   <div>about</div>
 </template>
 <script lang="ts">
-export interface Name {
-  name: string
-}
 
 export default {
   name: "About"
 }
 </script>
 <script lang="ts" setup>
+interface Name {
+  name: string
+}
+
 const props = defineProps<Name>()
 </script>
 
