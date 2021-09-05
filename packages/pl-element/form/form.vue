@@ -5,6 +5,7 @@
       v-bind="item"
       :form-state="calState"
       v-model="calState[item.prop]"
+      @update:form-item="updateFormItem"
     ></pl-form-item>
     <slot name="submit">
       <el-form-item>
@@ -19,7 +20,7 @@ import { defineProps, defineComponent, PropType, computed, useAttrs, ref, watch 
 import FormItem from "./form-item.vue";
 import PlFormItem from "./form-item.vue";
 import { ElForm } from "element-plus";
-import { merge } from 'lodash'
+import { merge, set } from 'lodash'
 
 export default defineComponent({
   name: 'pl-form',
@@ -36,6 +37,9 @@ export default defineComponent({
     }
   },
   setup(props, { emit }) {
+    const getUpdate = (val) => {
+
+    }
     const formState = ref({})
     const calState = computed({
       get: () => props.modelValue ? props.modelValue : formState.value,
@@ -67,7 +71,8 @@ export default defineComponent({
               return {
                 [c]: p
               }
-            }, '');
+            }, undefined);
+            console.log(r)
             calState.value = merge(calState.value, r)
           }
           // console.log(r)
@@ -97,6 +102,9 @@ export default defineComponent({
         console.log(e)
       }
     }
+    const updateFormItem = (val, path) => {
+      set(calState.value, path, val)
+    }
     const handleReset = () => {
       formRef.value?.resetFields()
     }
@@ -105,6 +113,7 @@ export default defineComponent({
       handleSubmit,
       handleReset,
       formRef,
+      updateFormItem,
       calFormConfig: computed(() => {
         return {
           ...useAttrs(),

@@ -16,8 +16,8 @@ const formItems = ref([
   { ui: 'select', label: '活动区域', prop: 'region', options: regionOptions.value, required: true },
   {
     grid: true, label: '活动时间', children: [
-      { span: 12, label: '', prop: 'hehe.haha.time1', ui: 'input' },
-      { span: 12, label: '', prop: 'hehe.haha.time2', ui: 'input' },
+      { span: 12, label: '', prop: 'a.b.c', ui: 'input' },
+      { span: 12, label: '', prop: 'a.b.d', ui: 'input' },
     ]
   },
   { ui: 'el-switch', label: '即时配送', prop: 'delivery', required: true },
@@ -35,10 +35,10 @@ const form1 = ref({
   name: 'haha',
   time1: '',
   time2: '',
-  hehe: {
-    haha: {
-      time1: 85,
-      time3: 96
+  a: {
+    b: {
+      c: 85,
+      d: 96
     },
     xixi: {
       test: 966

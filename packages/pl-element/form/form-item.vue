@@ -7,9 +7,12 @@
   >
     <template v-if="props.grid&&props.children.length" v-for="item in props.children">
       <el-col :span="item.span">
-        <pl-form-item :form-state="props.formState" v-bind="item" :label="item.label" :prop="item.prop"
-                      v-model="props.formState[item.prop]"
+        <pl-form-item :form-state="props.formState" v-bind="item" :label="item.label"
+                      :model-value="getValue(item)"
+                      @update:model-value="val=>setModelValue(val,item)"
         >
+          <!--                                        :modelValue="getPropValue(item)"-->
+          <!--                                        @update:model-value="val=>setModelValue(val,item)"-->
         </pl-form-item>
       </el-col>
     </template>
@@ -17,14 +20,16 @@
   </component>
 </template>
 <script lang="ts" setup>
-import { computed, defineProps, useAttrs } from "vue";
+import { computed, defineProps, onMounted, useAttrs, watch } from "vue";
 import { PlInput } from "../input";
 import { PlSelect } from "../select";
 import { PlRadio } from "../radio";
 import { PlDate } from "../date";
 import { PlCheckbox } from "../checkbox";
 import { PlWrapper } from "../wrapper";
-import PlForm from "./form.vue";
+// import PlForm from "./form.vue";
+import { getPropByPath, getValueByPath } from 'element-plus/packages/utils/util'
+import { cloneDeep, set } from 'lodash'
 
 interface PlFormItemProps {
   ui?: 'input' | 'select' | 'radio' | 'date' | any
@@ -48,7 +53,8 @@ const props = withDefaults(defineProps<PlFormItemProps>(), {
   formState: {}
 })
 const emit = defineEmits<{
-  (e: 'update:modelValue', val: string | number | boolean | object): void
+  (e: 'update:modelValue', val: string | number | boolean | object): void,
+  (e: 'update:formItem', val: string | number | boolean | object, path: string): void,
 }>()
 const map = {
   input: PlInput,
@@ -63,9 +69,28 @@ const calItem = computed(() => {
 const calValue = computed({
   get: () => props.modelValue,
   set: (val: any) => {
+    console.log(val)
     emit('update:modelValue', val)
   }
 })
+const calModel = computed({
+  get: (item) => {
+    console.log(item)
+    return props.formState.a.b.c
+  },
+  set: (val) => {
+    console.log(val)
+    emit('update:modelValue', val)
+  }
+})
+const getValue = (item) => {
+  return getValueByPath(props.formState, item.prop)
+}
+const setModelValue = (val, item) => {
+  // set(props.formState, item.prop, val)
+  console.log(val)
+  emit('update:formItem', val, item.prop)
+}
 const generateRules = computed(() => {
   const triggerText = props.ui === 'input' ? '请输入' : '请选择'
   let list = []
