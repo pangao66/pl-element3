@@ -1,5 +1,5 @@
 <template>
-  <pl-button @click="handleClick" debounce>
+  <pl-button type="primary" @click="handleClick" debounce>
     防抖
   </pl-button>
 </template>

@@ -25,7 +25,6 @@ export function removeSetup(content) {
 const setupCommentRegx = /<!--[\r?\n|\r]?(<setup>[\s\S]+)-->/
 
 export function stripSetup(content) {
-  console.log(content)
   const result = content.match(setupCommentRegx)
   const comment = result && result[1] ? result[1].trim() : ''
   if (!comment) return comment

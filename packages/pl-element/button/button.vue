@@ -129,9 +129,7 @@ const debounceClick = debounceFn((e: MouseEvent) => {
 })
 // confirm
 const confirmClick = () => {
-  if (props.autoFullscreenLoading) {
-    fullscreenLoadingStatus.value = true
-  }
+  fullscreenLoadingStatus.value = true
   emit('confirm', clickHideLoading)
 }
 const messageBoxConfirm = () => {

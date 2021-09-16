@@ -6,14 +6,14 @@
     @mouseleave="hovering = false"
   >
     <div class="source">
-      <slot name="source"></slot>
+      <slot name="default"></slot>
     </div>
     <div ref="meta" class="meta">
       <div v-if="$slots.description" class="description">
         <slot name="description"></slot>
       </div>
       <div class="highlight">
-        <slot name="default"></slot>
+        <slot name="code"></slot>
       </div>
     </div>
     <div
@@ -173,7 +173,7 @@ export default {
     this.removeScrollHandler()
   },
   mounted() {
-    const highlight = this.$slots.default()
+    const highlight = this.$slots?.code?.()
     if (highlight && highlight[0]) {
       const code = highlight[0].el.innerText
       if (code) {
@@ -181,7 +181,6 @@ export default {
         this.codepen.script = stripScript(code)
         this.codepen.style = stripStyle(code)
         this.codepen.setup = stripSetup(code)
-        console.log(this.codepen)
         if (this.codepen.setup) {
           this.hasSetup = true
         }
@@ -240,8 +239,10 @@ export default {
         '\n;const app = Vue.createApp(Main);\napp.use(ElementPlus);\napp.mount("#app")'
       const data = {
         js: jsTpl,
-        css: cssTpl,
-        html: htmlTpl,
+        // css: cssTpl,
+        // html: htmlTpl,
+        editors: 'vue',
+        parentId: 0
       }
       const form =
         document.getElementById('fiddle-form') || document.createElement('form')
@@ -249,7 +250,9 @@ export default {
         form.removeChild(form.firstChild)
       }
       form.method = 'POST'
-      form.action = 'https://codepen.io/pen/define/'
+      // form.action = 'https://codepen.io/pen/define/'
+      form.action = 'https://codepen.io/pen/?template=qBjpaKR'
+
       form.target = '_blank'
       form.style.display = 'none'
       const input = document.createElement('input')
@@ -289,7 +292,7 @@ export default {
       getCode()
     })
     const getCode = () => {
-      const highlight = slots.default()
+      const highlight = slots?.code?.()
       if (highlight && highlight[0]) {
         const code = highlight[0].el.innerText
         source.value = code
