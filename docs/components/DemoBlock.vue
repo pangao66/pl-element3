@@ -140,8 +140,8 @@ export default {
     },
     controlText() {
       return this.isExpanded
-        ? this.langConfig['hide-text']
-        : this.langConfig['show-text']
+        ? '隐藏代码'
+        : '显示代码'
     },
     codeArea() {
       return this.$el.getElementsByClassName('meta')[0]
@@ -360,20 +360,22 @@ export default {
       line-height: 26px;
     }
 
-    code {
-      color: #5e6d82;
-      background-color: #e6effb;
-      margin: 0 4px;
-      display: inline-block;
-      padding: 1px 5px;
-      font-size: 12px;
-      border-radius: 3px;
-      height: 18px;
-      line-height: 18px;
-    }
+    //code {
+    //  color: #5e6d82;
+    //  background-color: #e6effb;
+    //  margin: 0 4px;
+    //  display: inline-block;
+    //  padding: 1px 5px;
+    //  font-size: 12px;
+    //  border-radius: 3px;
+    //  height: 18px;
+    //  line-height: 18px;
+    //}
   }
 
   .highlight {
+    padding: 0 10px 10px;
+
     pre {
       margin: 0;
     }
@@ -406,6 +408,7 @@ export default {
     &.is-fixed {
       position: sticky;
       bottom: 0;
+      z-index: 1000;
     }
 
     i {

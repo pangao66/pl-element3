@@ -2,7 +2,9 @@ module.exports = {
   lang: 'en-US',
   title: 'VitePress',
   description: 'Vite & Vue powered static site generator.',
-
+  markdown: {
+    lineNumbers: true
+  },
   themeConfig: {
     repo: 'vuejs/vitepress',
     docsDir: 'docs',
@@ -53,8 +55,7 @@ function getGuideSidebar() {
     },
     {
       text: 'Advanced',
-      children: [
-      ]
+      children: []
     }
   ]
 }
