@@ -1,10 +1,18 @@
 <template>
-  <pl-form style="width: 800px;" :form-items="formItems" v-model="form1" @submit="handleSubmit"></pl-form>
+  <pl-form
+    style="width: 800px;"
+    :form-items="formItems"
+    v-model="form1"
+    @submit="handleSubmit"
+    ref="plForm"
+  >
+  </pl-form>
 </template>
 <script lang="ts" setup>
 import PlForm from "../../packages/pl-element/form/form.vue";
 import { ref } from "vue";
 
+const plForm = ref()
 const regionOptions = ref([
   { label: '北京', value: 'beijing' },
   { label: '上海', value: 'shanghai' },
@@ -16,8 +24,9 @@ const formItems = ref([
   { ui: 'select', label: '活动区域', prop: 'region', options: regionOptions.value, required: true },
   {
     grid: true, label: '活动时间', children: [
-      { span: 12, label: '', prop: 'a.b.c', ui: 'input' },
-      { span: 12, label: '', prop: 'a.b.d', ui: 'input' },
+      { span: 11, label: '日期', prop: 'a.b.c', ui: 'input', hideLabel: true, required: true },
+      { span: 2, prop: 'a.b.c', ui: 'el-col', content: '-', noFormItem: true },
+      { span: 11, label: '时间', prop: 'a.b.d', ui: 'input', hideLabel: true },
     ]
   },
   { ui: 'el-switch', label: '即时配送', prop: 'delivery', required: true },
@@ -40,14 +49,14 @@ const form1 = ref({
       c: 85,
       d: 96
     },
-    xixi: {
-      test: 966
-    }
   }
   // type: []
 })
 const handleSubmit = async (val) => {
-  console.log(val)
+  // console.log(val)
+  // console.log(plForm.value)
+  const nameInput = plForm.value.findFormItem('name')
+  console.log(nameInput)
 }
 </script>
 <script lang="ts">

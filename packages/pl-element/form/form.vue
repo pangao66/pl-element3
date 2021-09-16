@@ -6,7 +6,9 @@
       :form-state="calState"
       v-model="calState[item.prop]"
       @update:form-item="updateFormItem"
-    ></pl-form-item>
+    >
+
+    </pl-form-item>
     <slot name="submit">
       <el-form-item>
         <el-button type="primary" @click="handleSubmit">确认</el-button>
@@ -16,11 +18,15 @@
   </el-form>
 </template>
 <script lang="ts">
+import mitt from 'mitt'
 import { defineProps, defineComponent, PropType, computed, useAttrs, ref, watch } from "vue";
 import FormItem from "./form-item.vue";
 import PlFormItem from "./form-item.vue";
 import { ElForm } from "element-plus";
 import { merge, set } from 'lodash'
+import type { ElFormItemContext as FormItemCtx } from 'element-plus/lib/tokens'
+import { elFormEvents } from 'element-plus/lib/tokens'
+import { FormItemRule } from "element-plus/packages/components/form/src/form.type";
 
 export default defineComponent({
   name: 'pl-form',
@@ -34,12 +40,32 @@ export default defineComponent({
     formItems: {
       type: Array,
       default: () => []
-    }
+    },
+    rules: [ Object, Array ] as PropType<FormItemRule | FormItemRule[]>,
   },
   setup(props, { emit }) {
-    const getUpdate = (val) => {
+    const formMitt = mitt()
 
+    const fields: FormItemCtx[] = []
+
+
+    formMitt.on<FormItemCtx>(elFormEvents.addField, field => {
+      console.log(field)
+      if (field) {
+        fields.push(field)
+      }
+    })
+
+    formMitt.on<FormItemCtx>(elFormEvents.removeField, field => {
+      if (field && field.prop) {
+        fields.splice(fields.indexOf(field), 1)
+      }
+    })
+    const findFormItem = (prop) => {
+      console.log(fields)
+      return fields.find((item) => item.prop === prop)
     }
+    // const formRef=ref()
     const formState = ref({})
     const calState = computed({
       get: () => props.modelValue ? props.modelValue : formState.value,
@@ -72,26 +98,12 @@ export default defineComponent({
                 [c]: p
               }
             }, undefined);
-            console.log(r)
             calState.value = merge(calState.value, r)
           }
-          // console.log(r)
-          // console.log(merge(testOjb, r))
-          // calState.value = {
-          //   ...calState.value,
-          //   [item.prop]: ''
-          // }
         }
       }
     }
     props.formItems?.forEach((item) => {
-      // if (!item.grid && !item.children) {
-      //   loopInitValue(item)
-      // } else {
-      //   item.children.forEach((item) => {
-      //
-      //   })
-      // }
       loopInitValue(item)
     })
     const handleSubmit = async () => {
@@ -108,18 +120,20 @@ export default defineComponent({
     const handleReset = () => {
       formRef.value?.resetFields()
     }
+    const calFormConfig = computed(() => {
+      return {
+        ...useAttrs(),
+        labelWidth: '120px'
+      }
+    })
     return {
       calState,
       handleSubmit,
       handleReset,
       formRef,
       updateFormItem,
-      calFormConfig: computed(() => {
-        return {
-          ...useAttrs(),
-          labelWidth: '120px'
-        }
-      })
+      calFormConfig,
+      findFormItem
     }
   }
 })

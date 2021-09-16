@@ -15,7 +15,7 @@
 import PlInput from "../../packages/pl-element/input/pl-input.vue";
 import { ref } from "vue";
 
-const str1 = ref('')
+const str1 = ref(1)
 const str2 = ref('')
 const str3 = ref('')
 const num1 = ref(12)

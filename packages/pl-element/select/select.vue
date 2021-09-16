@@ -12,6 +12,14 @@
   </el-select>
 </template>
 <script lang="ts" setup>
+const calConfig = computed(() => {
+  return {
+    clearable: true,
+    filterable: true,
+    defaultFirstOption: true,
+    ...attrs
+  }
+})
 import { computed, watch, useAttrs } from "vue";
 import { useOptions } from "../hooks/useOptions";
 import { at } from "lodash";
@@ -64,14 +72,7 @@ watch(() => props.modelValue, (cur, prev) => {
   }
 }, { immediate: true })
 const attrs = useAttrs()
-const calConfig = computed(() => {
-  return {
-    clearable: true,
-    filterable: true,
-    defaultFirstOption: true,
-    ...attrs
-  }
-})
+
 
 </script>
 <script lang="ts">

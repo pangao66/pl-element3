@@ -23,10 +23,11 @@
   },
   "dependencies": {
     "@element-plus/icons": "^0.0.11",
-    "element-plus": "^1.1.0-beta.8",
+    "@vueuse/core": "^6.3.3",
+    "element-plus": "^1.1.0-beta.10",
     "number-precision": "^1.5.1",
     "vite-plugin-dts": "^0.7.0",
-    "vue": "^3.2.8",
+    "vue": "^3.2.11",
     "vue-router": "^4.0.11"
   },
   "devDependencies": {
@@ -34,7 +35,7 @@
     "@types/node": "^16.7.4",
     "@vitejs/plugin-vue": "^1.6.0",
     "@vitejs/plugin-vue-jsx": "^1.1.7",
-    "@vue/compiler-sfc": "^3.2.8",
+    "@vue/compiler-sfc": "^3.2.11",
     "lodash-es": "^4.17.21",
     "sass": "^1.38.2",
     "stylus": "^0.54.8",

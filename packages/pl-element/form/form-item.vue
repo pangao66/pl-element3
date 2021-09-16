@@ -1,18 +1,16 @@
 <template>
   <component
     :is="props.noFormItem?PlWrapper:'el-form-item'"
-    :label="props.label"
+    :label="props.hideLabel?'':props.label"
     :prop="props.prop"
     :rules="generateRules"
   >
-    <template v-if="props.grid&&props.children.length" v-for="item in props.children">
+    <template v-if="props.grid&&props.children?.length" v-for="item in props.children">
       <el-col :span="item.span">
         <pl-form-item :form-state="props.formState" v-bind="item" :label="item.label"
                       :model-value="getValue(item)"
                       @update:model-value="val=>setModelValue(val,item)"
         >
-          <!--                                        :modelValue="getPropValue(item)"-->
-          <!--                                        @update:model-value="val=>setModelValue(val,item)"-->
         </pl-form-item>
       </el-col>
     </template>
@@ -20,16 +18,15 @@
   </component>
 </template>
 <script lang="ts" setup>
-import { computed, defineProps, onMounted, useAttrs, watch } from "vue";
+import { computed, useAttrs, inject } from "vue";
 import { PlInput } from "../input";
 import { PlSelect } from "../select";
 import { PlRadio } from "../radio";
 import { PlDate } from "../date";
 import { PlCheckbox } from "../checkbox";
 import { PlWrapper } from "../wrapper";
-// import PlForm from "./form.vue";
-import { getPropByPath, getValueByPath } from 'element-plus/packages/utils/util'
-import { cloneDeep, set } from 'lodash'
+import { getValueByPath } from 'element-plus/packages/utils/util'
+
 
 interface PlFormItemProps {
   ui?: 'input' | 'select' | 'radio' | 'date' | any
@@ -41,12 +38,13 @@ interface PlFormItemProps {
   children?: PlFormItemProps[]
   span?: number
   noFormItem?: boolean
+  hideLabel?: boolean,
   formState: any
 }
 
+
 const props = withDefaults(defineProps<PlFormItemProps>(), {
   ui: 'input',
-  // modelValue: null,
   label: '',
   prop: '',
   noFormItem: false,
@@ -63,23 +61,13 @@ const map = {
   checkbox: PlCheckbox,
   date: PlDate
 }
+
 const calItem = computed(() => {
   return map[props.ui] || props.ui
 })
 const calValue = computed({
   get: () => props.modelValue,
   set: (val: any) => {
-    console.log(val)
-    emit('update:modelValue', val)
-  }
-})
-const calModel = computed({
-  get: (item) => {
-    console.log(item)
-    return props.formState.a.b.c
-  },
-  set: (val) => {
-    console.log(val)
     emit('update:modelValue', val)
   }
 })
@@ -87,8 +75,6 @@ const getValue = (item) => {
   return getValueByPath(props.formState, item.prop)
 }
 const setModelValue = (val, item) => {
-  // set(props.formState, item.prop, val)
-  console.log(val)
   emit('update:formItem', val, item.prop)
 }
 const generateRules = computed(() => {
