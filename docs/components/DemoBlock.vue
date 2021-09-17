@@ -9,9 +9,9 @@
       <slot name="default"></slot>
     </div>
     <div ref="meta" class="meta">
-      <div v-if="$slots.description" class="description">
-        <slot name="description"></slot>
-      </div>
+      <!--      <div v-if="$slots.description" class="description">-->
+      <!--        <slot name="description"></slot>-->
+      <!--      </div>-->
       <div class="highlight">
         <slot name="code"></slot>
       </div>
@@ -377,7 +377,11 @@ export default {
   }
 
   .highlight {
-    padding: 0 10px 10px;
+    //padding: 0 10px 10px;
+    div[class*='language-'] {
+      margin: 0;
+      border-radius: 0;
+    }
 
     pre {
       margin: 0;

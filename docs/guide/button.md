@@ -62,6 +62,7 @@
 </demo-block> 
 
 ### tooltip功能
+鼠标放上会有tooltip效果
 
 <demo-block>
 <button-04></button-04>
@@ -75,10 +76,39 @@
 
 </demo-block> 
 
+<el-date-picker v-model="value1" type="date" placeholder="Pick a day">
+</el-date-picker>
+
+## Button Attributes
+
+| Attribute   | Description                            | Type    | Accepted Values                                    | Default |
+| ----------- | -------------------------------------- | ------- | -------------------------------------------------- | ------- |
+| debounce    | 是否防抖                                | boolean  | -                                              | -      |
+| confirmType  | button type                            | string  | primary / success / warning / danger / info / text | —       |
+| plain       | determine whether it's a plain button  | boolean | —                                                  | false   |
+| round       | determine whether it's a round button  | boolean | —                                                  | false   |
+| circle      | determine whether it's a circle button | boolean | —                                                  | false   |
+| loading     | determine whether it's loading         | boolean | —                                                  | false   |
+| disabled    | disable the button                     | boolean | —                                                  | false   |
+| icon        | icon class name                        | string  | —                                                  | —       |
+| autofocus   | same as native button's `autofocus`    | boolean | —                                                  | false   |
+| native-type | same as native button's `type`         | string  | button / submit / reset                            | button  |
+
+## Button-Group Attributes
+
+| Attribute | Description                                      | Type   | Accepted Values       | Default |
+| --------- | ------------------------------------------------ | ------ | --------------------- | ------- |
+| size      | control the size of buttons in this button-group | string | medium / small / mini | —       |
+
+## Button-Group Slots
+
+
 <script setup>
+import {ref} from 'vue';
 import Button01 from '../demos/button/button-01.vue';
 import Button02 from '../demos/button/button-02.vue';
 import Button03 from '../demos/button/button-03.vue';
 import Button04 from '../demos/button/button-04.vue';
-import DemoBlock from '../components/DemoBlock.vue'
+import DemoBlock from '../components/DemoBlock.vue';
+const value1=ref('')
 </script>
