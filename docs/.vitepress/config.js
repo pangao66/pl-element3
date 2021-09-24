@@ -1,3 +1,4 @@
+const path = require('path')
 module.exports = {
   lang: 'en-US',
   title: 'VitePress',
@@ -41,7 +42,10 @@ module.exports = {
       '/guide/': getGuideSidebar(),
       '/': getGuideSidebar()
     }
-  }
+  },
+  // alias: {
+  //   'ahooks-vue': path.resolve('./packages/'),
+  // },
 }
 
 function getGuideSidebar() {
@@ -51,6 +55,8 @@ function getGuideSidebar() {
       children: [
         { text: 'pl-element是什么', link: '/' },
         { text: 'button', link: '/guide/button' },
+        { text: 'select', link: '/guide/select' },
+        { text: 'form', link: '/guide/form' },
       ]
     },
     {

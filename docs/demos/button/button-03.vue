@@ -5,11 +5,14 @@
 <script lang="ts" setup>
 import { ElMessage } from 'element-plus'
 
-const handleConfirm = (done) => {
-  setTimeout(() => {
-    done()
-    ElMessage.success('操作成功')
-  }, 1000)
+const sleep = (time: number) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, time)
+  })
+}
+const handleConfirm = async () => {
+  await sleep(2000)
+  ElMessage.info('操作成功')
 }
 </script>
 <script lang="ts">

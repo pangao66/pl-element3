@@ -1,5 +1,5 @@
 <template>
-  <el-form ref="formRef" :model="calState" v-bind="calFormConfig">
+  <el-form ref="formRef" :model="calState" v-bind="calFormConfig" @submit.prevent="handleSubmit" @reset="handleReset">
     <pl-form-item
       v-for="item in formItems"
       v-bind="item"
@@ -9,29 +9,27 @@
     >
 
     </pl-form-item>
-    <slot name="submit">
+    <slot name="submit" v-bind="{handleSubmit,handleReset}">
       <el-form-item>
-        <el-button type="primary" @click="handleSubmit">确认</el-button>
-        <el-button @click="handleReset">重置</el-button>
+        <el-button type="primary" native-type="submit">确认</el-button>
+        <el-button native-type="reset">重置</el-button>
       </el-form-item>
     </slot>
   </el-form>
 </template>
 <script lang="ts">
-import mitt from 'mitt'
+// import mitt from 'mitt'
 import { defineProps, defineComponent, PropType, computed, useAttrs, ref, watch } from "vue";
 import FormItem from "./form-item.vue";
 import PlFormItem from "./form-item.vue";
 import { ElForm } from "element-plus";
 import { merge, set } from 'lodash'
-import type { ElFormItemContext as FormItemCtx } from 'element-plus/lib/tokens'
-import { elFormEvents } from 'element-plus/lib/tokens'
 import { FormItemRule } from "element-plus/packages/components/form/src/form.type";
 
 export default defineComponent({
   name: 'pl-form',
   components: { PlFormItem, FormItem },
-  emits: [ 'update:modelValue', 'submit' ],
+  emits: [ 'update:modelValue', 'submit', 'validateError' ],
   props: {
     modelValue: {
       type: Object,
@@ -44,28 +42,6 @@ export default defineComponent({
     rules: [ Object, Array ] as PropType<FormItemRule | FormItemRule[]>,
   },
   setup(props, { emit }) {
-    const formMitt = mitt()
-
-    const fields: FormItemCtx[] = []
-
-
-    formMitt.on<FormItemCtx>(elFormEvents.addField, field => {
-      console.log(field)
-      if (field) {
-        fields.push(field)
-      }
-    })
-
-    formMitt.on<FormItemCtx>(elFormEvents.removeField, field => {
-      if (field && field.prop) {
-        fields.splice(fields.indexOf(field), 1)
-      }
-    })
-    const findFormItem = (prop) => {
-      console.log(fields)
-      return fields.find((item) => item.prop === prop)
-    }
-    // const formRef=ref()
     const formState = ref({})
     const calState = computed({
       get: () => props.modelValue ? props.modelValue : formState.value,
@@ -106,12 +82,14 @@ export default defineComponent({
     props.formItems?.forEach((item) => {
       loopInitValue(item)
     })
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+      e.preventDefault()
       try {
         await formRef.value?.validate()
         emit('submit', calState.value)
       } catch (e) {
-        console.log(e)
+        emit('validateError', e)
+        // console.log(e)
       }
     }
     const updateFormItem = (val, path) => {
@@ -123,7 +101,7 @@ export default defineComponent({
     const calFormConfig = computed(() => {
       return {
         ...useAttrs(),
-        labelWidth: '120px'
+        // labelWidth: '120px'
       }
     })
     return {
@@ -132,13 +110,12 @@ export default defineComponent({
       handleReset,
       formRef,
       updateFormItem,
-      calFormConfig,
-      findFormItem
+      calFormConfig
     }
   }
 })
 </script>
 
-<style scoped>
+<style>
 
 </style>

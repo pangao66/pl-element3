@@ -1,5 +1,5 @@
-import { isObject } from "../../../common/utils/common";
 import { computed } from "vue";
+import { isPlainObject } from "lodash-es";
 
 type OriginOption = any[] | Record<string | number, any>
 type OptionItem = { label: string, value: string | number | boolean | Record<string | number, any>, key: string | number | boolean, disabled?: boolean }
@@ -14,7 +14,7 @@ export function useOptions(options: OriginOption, config?: UseOptionsProps) {
   const { labelKey = 'label', valueKey = 'value', isBindObject = false } = config || {}
   const calOptions = computed<OptionItem[]>(() => {
     let newOptions: OptionItem[] = []
-    if (isObject(options)) {
+    if (isPlainObject(options)) {
       return Object.entries(options as Record<string, any>).map(([ key, value ]) => ({
         label: value, value: key, key: key
       }))

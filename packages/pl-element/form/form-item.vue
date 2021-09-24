@@ -3,9 +3,9 @@
     :is="props.noFormItem?PlWrapper:'el-form-item'"
     :label="props.hideLabel?'':props.label"
     :prop="props.prop"
-    :rules="generateRules"
+    v-bind="calFormItemConfig"
   >
-    <template v-if="props.grid&&props.children?.length" v-for="item in props.children">
+    <template v-if="props.grid&&props.children.length" v-for="item in props.children">
       <el-col :span="item.span">
         <pl-form-item :form-state="props.formState" v-bind="item" :label="item.label"
                       :model-value="getValue(item)"
@@ -34,12 +34,20 @@ interface PlFormItemProps {
   label?: string
   prop?: string
   required?: boolean
+  rules?: any
   grid?: boolean
   children?: PlFormItemProps[]
   span?: number
   noFormItem?: boolean
   hideLabel?: boolean,
   formState: any
+  formItemConfig?: any
+  uiConfig?: any
+  options?: any
+  min?: number
+  max?: number
+  minNum?: number
+  maxNum?: number
 }
 
 
@@ -48,7 +56,9 @@ const props = withDefaults(defineProps<PlFormItemProps>(), {
   label: '',
   prop: '',
   noFormItem: false,
-  formState: {}
+  formState: {},
+  formItemConfig: {},
+  uiConfig: {}
 })
 const emit = defineEmits<{
   (e: 'update:modelValue', val: string | number | boolean | object): void,
@@ -59,7 +69,10 @@ const map = {
   select: PlSelect,
   radio: PlRadio,
   checkbox: PlCheckbox,
-  date: PlDate
+  date: PlDate,
+  switch: 'el-switch',
+  time: 'el-time-picker',
+  col: 'el-col'
 }
 
 const calItem = computed(() => {
@@ -79,13 +92,49 @@ const setModelValue = (val, item) => {
 }
 const generateRules = computed(() => {
   const triggerText = props.ui === 'input' ? '请输入' : '请选择'
+  const trigger = props.ui === 'input' ? 'blur' : 'change'
+  const isArray = (props.ui === 'checkbox') || (props.ui === 'select' && props.uiConfig.multiple) || (props.ui === 'date' && props.uiConfig.type === 'daterange')
+  console.log(isArray)
   let list = []
-  list.push({ required: props.required, message: `${triggerText}${props.label}` })
+  list.push({
+    required: props.required,
+    message: `${triggerText}${props.label}`,
+    type: isArray ? 'array' : undefined,
+    trigger
+  })
+  if (props.rules && Array.isArray(props.rules)) {
+    list = list.concat(props.rules)
+  }
+  if (props.min && props.max) {
+    list.push({
+      message: `长度在${props.min}到${props.max}个字符`,
+      trigger
+    })
+  }
+  if (props.min && !props.max) {
+    list.push({
+      message: `请至少输入${props.min}个字符`,
+      trigger,
+    })
+  }
+  if (!props.min && props.max) {
+    list.push({
+      message: `不超过${props.max}个字符`,
+      trigger,
+    })
+  }
   return list
 })
 const calConfig = computed(() => {
   return {
-    ...useAttrs()
+    ...props.uiConfig,
+    options: props.options
+  }
+})
+const calFormItemConfig = computed(() => {
+  return {
+    rules: generateRules.value.length ? generateRules.value : undefined,
+    ...props.formItemConfig
   }
 })
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <el-select v-model="calValue" v-bind="calConfig" style="width:100%">
+  <el-select v-model="calValue" v-bind="calConfig">
     <el-option
       v-for="item in calOptions"
       :label="item.label"
@@ -12,18 +12,8 @@
   </el-select>
 </template>
 <script lang="ts" setup>
-const calConfig = computed(() => {
-  return {
-    clearable: true,
-    filterable: true,
-    defaultFirstOption: true,
-    ...attrs
-  }
-})
 import { computed, watch, useAttrs } from "vue";
 import { useOptions } from "../hooks/useOptions";
-import { at } from "lodash";
-
 interface PlSelectProps {
   options: any[] | Record<string | number, any>
   modelValue: any,
@@ -72,7 +62,14 @@ watch(() => props.modelValue, (cur, prev) => {
   }
 }, { immediate: true })
 const attrs = useAttrs()
-
+const calConfig = computed(() => {
+  return {
+    clearable: true,
+    filterable: true,
+    defaultFirstOption: true,
+    ...attrs
+  }
+})
 
 </script>
 <script lang="ts">

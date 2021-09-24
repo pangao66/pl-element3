@@ -1,0 +1,55 @@
+<template>
+  <pl-form v-model="form" :form-items="formItems" @submit="handleSubmit" :form-config="{labelWidth:'120px'}">
+    <template #submit>
+      <el-button type="primary" native-type="submit">立即创建</el-button>
+      <el-button>取消</el-button>
+    </template>
+  </pl-form>
+</template>
+<script lang="ts" setup>
+import { ref } from "vue";
+
+const form = ref({
+  name: '',
+  region: '',
+  date1: '',
+  date2: '',
+  delivery: false,
+  type: [],
+  resource: '',
+  desc: '',
+})
+const formItems = ref([
+  { label: '活动名称', prop: 'name', ui: 'input' },
+  {
+    label: '活动区域', prop: 'region', ui: 'select',
+    options: [
+      { label: '区域一', value: 'shanghai' },
+      { label: '区域二', value: 'beijing' }
+    ]
+  },
+  {
+    label: '活动时间', grid: true, children: [
+      { span: 11, label: '日期', prop: 'date1', ui: 'date', hideLabel: true },
+      { span: 1, ui: 'col' },
+      { span: 11, label: '时间', prop: 'date2', ui: 'time', hideLabel: true },
+    ]
+  },
+  { label: '及时配送', prop: 'delivery', ui: 'switch' },
+  { label: '活动性质', prop: 'type', ui: 'checkbox', options: [ '美食/餐厅线上活动', '地推活动', '线下主题活动', '单纯品牌曝光' ] },
+  { label: '特殊资源', prop: 'resource', ui: 'radio', options: [ '线上品牌商赞助', '线下场地免费' ] },
+  { label: '活动形式', prop: 'desc', ui: 'input', uiConfig: { type: 'textarea' } },
+])
+const handleSubmit = (values) => {
+  console.log(values)
+}
+</script>
+<script lang="ts">
+export default {
+  name: "form-01"
+}
+</script>
+
+<style scoped>
+
+</style>

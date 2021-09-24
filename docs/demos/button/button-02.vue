@@ -8,16 +8,25 @@
     @click="handleClick"
   >自动全屏loading
   </pl-button>
+  <pl-button auto-loading @click="handleClickCallBack">自动loading</pl-button>
 </template>
 <script lang="ts" setup>
-const handleClick = (done) => {
+import { ElMessage } from 'element-plus'
+
+const sleep = (time: number) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, time)
+  })
+}
+const handleClick = async () => {
+  ElMessage.info('开始loading')
+  await sleep(2000)
+  ElMessage.info('结束loading')
+}
+const handleClickCallBack = (e, done) => {
   setTimeout(() => {
-    /** do something  这里处理一些事件,比如点击之后ajax,
-     * ajax返回后调用done() 就能自动loading和关闭loading
-     *  无需定义一个loading变量
-     */
     done()
-  }, 1000)
+  }, 2000)
 }
 </script>
 <script lang="ts">

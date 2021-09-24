@@ -8,24 +8,25 @@
       <el-button
         v-loading.fullscreen="fullscreenLoadingStatus"
         :loading="loadingStatus"
-        @click="handleClick"
         v-bind="$attrs"
+        @click="handleClick"
       >
-        <slot></slot>
+        <slot/>
       </el-button>
-      <slot name="content"></slot>
+      <slot name="content"/>
     </template>
 
   </component>
 </template>
 
 <script lang="ts" setup>
-import { computed, reactive, ref, toRefs, } from 'vue';
-import { debounce as debounceFn } from 'lodash-es'
-import PlWrapper from "../wrapper/wrapper.vue";
-import { ElMessageBox } from "element-plus";
-
-// import { DebouncedFunc } from '@types/lodash/common/function'
+import { computed, ref, useAttrs, PropType } from 'vue'
+import PlWrapper from '../wrapper/wrapper.vue'
+import { ElMessageBox } from 'element-plus'
+import { debounce } from 'lodash-es'
+import { isPromise } from '@vue/shared'
+import { Mouse } from "@element-plus/icons";
+import { PopconfirmProps } from 'element-plus'
 
 interface PlButtonProps {
   autoLoading?: boolean;
@@ -36,7 +37,10 @@ interface PlButtonProps {
   popConfirmConfig?: any
   messageBoxConfig?: any
   tipContent?: string
-  tipConfig?: any
+  tipConfig?: any,
+  onClick?: () => void | Promise<void>
+  // onConfirm?: () => void | Prmoise<void>
+  onCancel?: () => void
 }
 
 const props = withDefaults(defineProps<PlButtonProps>(), {
@@ -48,18 +52,15 @@ const props = withDefaults(defineProps<PlButtonProps>(), {
   },
   messageBoxConfig: {},
   tipConfig: {}
-});
+})
 const emit = defineEmits<{
-  (e: 'click', cb: () => void, event: MouseEvent): void
-  (e: 'confirm', cb: () => void): void
+  // (e: 'click', e, done: () => void): void,
+  // (e: 'confirm', e, done: () => void): void
   (e: 'cancel'): void
-}>();
-
-const loadingStatus = ref(false);
-const fullscreenLoadingStatus = ref(false);
-// const {
-//   autoLoading, autoFullscreenLoading, debounce, confirmType, popConfirmConfig, messageBoxConfig, tipContent, tipConfig
-// } = reactive(props);
+}>()
+const attrs = useAttrs()
+const loadingStatus = ref(false)
+const fullscreenLoadingStatus = ref(false)
 const slotName = computed(() => {
   return props.confirmType === 'pop' ? 'reference' : 'default'
 })
@@ -87,7 +88,7 @@ const currentComponentConfig = computed(() => {
   return {}
 })
 
-function handleClick(e: MouseEvent) {
+async function handleClick(e: MouseEvent) {
   // 防抖
   if (props.debounce) {
     debounceClick(e)
@@ -104,33 +105,63 @@ function handleClick(e: MouseEvent) {
   }
   // 普通按钮点击自动全屏loading
   if (props.autoFullscreenLoading) {
-    fullscreenLoadingStatus.value = true;
-    emit('click', clickHideLoading, e);
-    return;
+    fullscreenLoadingStatus.value = true
+    emitClick(e)
+    return
   }
   // 普通按钮点击自动loading
   if (props.autoLoading) {
-    loadingStatus.value = true;
-    emit('click', clickHideLoading, e);
+    loadingStatus.value = true
+    emitClick(e)
+    return
+  }
+  emitClick(e)
+}
+
+
+const emitClick = (e) => {
+  if (props.onClick) {
+    const r = props.onClick(
+      e,
+      () => {
+        hideLoading()
+      }
+    )
+    handlePromiseCallBack(r)
+  } else {
+    emit('click', e, hideLoading)
   }
 }
-
 // 触发click事件和回调函数,回调后消失loading
-function clickHideLoading() {
-  loadingStatus.value = false;
-  fullscreenLoadingStatus.value = false;
+const hideLoading = () => {
+  loadingStatus.value = false
+  fullscreenLoadingStatus.value = false
 }
-
 // 防抖点击
-const debounceClick = debounceFn((e: MouseEvent) => {
-  emit('click', clickHideLoading, e)
+const debounceClick = debounce((e: MouseEvent) => {
+  emitClick(e)
 }, 500, {
   leading: true
 })
-// confirm
 const confirmClick = () => {
   fullscreenLoadingStatus.value = true
-  emit('confirm', clickHideLoading)
+  if (props.onConfirm) {
+    const r = props.onConfirm(
+      () => {
+        hideLoading()
+      }
+    )
+    handlePromiseCallBack(r)
+  } else {
+    emit('confirm', e, hideLoading)
+  }
+}
+const handlePromiseCallBack = (res: Promise | undefined) => {
+  if (isPromise(res)) {
+    res.finally(() => {
+      hideLoading()
+    })
+  }
 }
 const messageBoxConfirm = () => {
   const {
@@ -144,17 +175,19 @@ const messageBoxConfirm = () => {
     confirmButtonText,
     cancelButtonText,
     type
-  }).then(() => {
-    confirmClick()
-  }).catch(() => {
-    emit('cancel')
   })
+    .then(() => {
+      confirmClick()
+    })
+    .catch(() => {
+      emit('cancel')
+    })
 }
 </script>
 <script lang="ts">
 export default {
   name: 'pl-button'
-};
+}
 </script>
 
 <style>

@@ -24,7 +24,10 @@
 ### 自动loading
 :::tip 提示
 给按钮加上`loading`也是非常多的场景,通常我们需要每个按钮定义一个相关的`loading`变量,非常麻烦,这里无需定义变量,
-只需传入`autoLoading`为`true`即可,如需全屏`loading`,则传递`autoFullscreenLoading`为`true`,在需要的时候执行回调函数`done()`消失`loading`
+只需传入`autoLoading`为`true`即可,如需全屏`loading`,则传递`autoFullscreenLoading`为`true`,
+设置了`autoLoading`或`autoFullscreenLoading`之后,点击了按钮则会自动加载`loading`,要让`loading`消失有两种方法
+- `click`事件传递一个`promise`,`promise`执行后会自动消失`loading`
+-  启用第二个参数,第二个参数为回调函数,执行回调函数即可消失`loading`
 :::
 
 
@@ -46,7 +49,7 @@
 
 :::warning 注意
 使用二次确认功能,
-此时`autoFullscreenLoading功能将强制开启`,点击确认后会`自动全屏loading`,用户需要执行`done()`回调函数来消失`loading`
+此时`autoFullscreenLoading功能将强制开启`,点击确认后会`自动全屏loading`,消失`loading`的方法跟上面的一致,`on-confirm`传递一个`promise`或者使用回调函数即可
 :::
 
 <demo-block>
@@ -76,31 +79,14 @@
 
 </demo-block> 
 
-<el-date-picker v-model="value1" type="date" placeholder="Pick a day">
-</el-date-picker>
-
 ## Button Attributes
 
 | Attribute   | Description                            | Type    | Accepted Values                                    | Default |
 | ----------- | -------------------------------------- | ------- | -------------------------------------------------- | ------- |
 | debounce    | 是否防抖                                | boolean  | -                                              | -      |
-| confirmType  | button type                            | string  | primary / success / warning / danger / info / text | —       |
-| plain       | determine whether it's a plain button  | boolean | —                                                  | false   |
-| round       | determine whether it's a round button  | boolean | —                                                  | false   |
-| circle      | determine whether it's a circle button | boolean | —                                                  | false   |
-| loading     | determine whether it's loading         | boolean | —                                                  | false   |
-| disabled    | disable the button                     | boolean | —                                                  | false   |
-| icon        | icon class name                        | string  | —                                                  | —       |
-| autofocus   | same as native button's `autofocus`    | boolean | —                                                  | false   |
-| native-type | same as native button's `type`         | string  | button / submit / reset                            | button  |
+| confirmType  | 二次确认方式                            | string  |     pop/messagebox      | -       |
 
-## Button-Group Attributes
 
-| Attribute | Description                                      | Type   | Accepted Values       | Default |
-| --------- | ------------------------------------------------ | ------ | --------------------- | ------- |
-| size      | control the size of buttons in this button-group | string | medium / small / mini | —       |
-
-## Button-Group Slots
 
 
 <script setup>
@@ -110,5 +96,4 @@ import Button02 from '../demos/button/button-02.vue';
 import Button03 from '../demos/button/button-03.vue';
 import Button04 from '../demos/button/button-04.vue';
 import DemoBlock from '../components/DemoBlock.vue';
-const value1=ref('')
 </script>

@@ -2,6 +2,7 @@ import { PlButton } from './pl-element/button/index'
 import { PlInput } from "./pl-element/input";
 import { PlSelect } from "./pl-element/select";
 import { PlWrapper } from "./pl-element/wrapper";
+import { PlForm, PlFormItem } from './pl-element/form/index'
 // export default PlButton
 import { config } from '../common/config/install'
 import { isObject } from '../common/utils/common'
@@ -12,7 +13,9 @@ const components = [
   PlButton,
   PlSelect,
   PlInput,
-  PlWrapper
+  PlWrapper,
+  PlForm,
+  PlFormItem
 ]
 export const install = (
   app: App<unknown>,
@@ -49,5 +52,7 @@ export interface PlElementComponents {
   PlButton: typeof PlButton,
   PlInput: typeof PlInput,
   PlSelect: typeof PlSelect,
-  PlWrapper: typeof PlWrapper
+  PlWrapper: typeof PlWrapper,
+  PlForm: typeof PlForm,
+  PlFormItem: typeof PlFormItem
 }
