@@ -7,9 +7,10 @@
   >
     <template v-if="props.grid&&props.children.length" v-for="item in props.children">
       <el-col :span="item.span">
-        <pl-form-item :form-state="props.formState" v-bind="item" :label="item.label"
-                      :model-value="getValue(item)"
-                      @update:model-value="val=>setModelValue(val,item)"
+        <pl-form-item
+          :form-state="props.formState" v-bind="item" :label="item.label"
+          :model-value="getValue(item)"
+          @update:model-value="val=>setModelValue(val,item)"
         >
         </pl-form-item>
       </el-col>
@@ -48,6 +49,7 @@ interface PlFormItemProps {
   max?: number
   minNum?: number
   maxNum?: number
+  events?: any
 }
 
 
@@ -58,7 +60,10 @@ const props = withDefaults(defineProps<PlFormItemProps>(), {
   noFormItem: false,
   formState: {},
   formItemConfig: {},
-  uiConfig: {}
+  uiConfig: {},
+  required: undefined,
+  events: {}
+
 })
 const emit = defineEmits<{
   (e: 'update:modelValue', val: string | number | boolean | object): void,
@@ -94,14 +99,21 @@ const generateRules = computed(() => {
   const triggerText = props.ui === 'input' ? '请输入' : '请选择'
   const trigger = props.ui === 'input' ? 'blur' : 'change'
   const isArray = (props.ui === 'checkbox') || (props.ui === 'select' && props.uiConfig.multiple) || (props.ui === 'date' && props.uiConfig.type === 'daterange')
-  console.log(isArray)
   let list = []
-  list.push({
-    required: props.required,
-    message: `${triggerText}${props.label}`,
-    type: isArray ? 'array' : undefined,
-    trigger
-  })
+  let type = undefined
+  if (calValue.value instanceof Date) {
+    type = 'date'
+  } else if (isArray) {
+    type = 'array'
+  }
+  if (props.required) {
+    list.push({
+      required: props.required,
+      message: `${triggerText}${props.label}`,
+      type: type,
+      trigger
+    })
+  }
   if (props.rules && Array.isArray(props.rules)) {
     list = list.concat(props.rules)
   }
@@ -128,7 +140,8 @@ const generateRules = computed(() => {
 const calConfig = computed(() => {
   return {
     ...props.uiConfig,
-    options: props.options
+    options: props.options,
+    ...props.events
   }
 })
 const calFormItemConfig = computed(() => {

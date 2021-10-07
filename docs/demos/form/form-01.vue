@@ -49,7 +49,3 @@ export default {
   name: "form-01"
 }
 </script>
-
-<style scoped>
-
-</style>

@@ -38,8 +38,8 @@ interface PlButtonProps {
   messageBoxConfig?: any
   tipContent?: string
   tipConfig?: any,
-  onClick?: () => void | Promise<void>
-  // onConfirm?: () => void | Prmoise<void>
+  onClick?: (e, done?: () => void) => void | Promise<void>
+  onConfirm?: (done: () => void) => void | Promise<void>
   onCancel?: () => void
 }
 
@@ -128,8 +128,6 @@ const emitClick = (e) => {
       }
     )
     handlePromiseCallBack(r)
-  } else {
-    emit('click', e, hideLoading)
   }
 }
 // 触发click事件和回调函数,回调后消失loading
@@ -153,10 +151,11 @@ const confirmClick = () => {
     )
     handlePromiseCallBack(r)
   } else {
-    emit('confirm', e, hideLoading)
+    // emit('confirm', e, hideLoading)
   }
 }
-const handlePromiseCallBack = (res: Promise | undefined) => {
+const handlePromiseCallBack = (res: Promise<void> | undefined) => {
+  console.log(res)
   if (isPromise(res)) {
     res.finally(() => {
       hideLoading()

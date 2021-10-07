@@ -1,14 +1,26 @@
 <template>
-
+  <el-table-column :label="label" :prop="prop"></el-table-column>
 </template>
-<script lang="ts" setup>
-</script>
 <script lang="ts">
-export default {
-  name: "table-column"
-}
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  name: "pl-table-column",
+  props: {
+    label: {
+      type: String,
+    },
+    prop: {
+      type: String
+    }
+
+  },
+  setup() {
+    return {}
+  }
+})
 </script>
 
-<style scoped>
+<style>
 
 </style>

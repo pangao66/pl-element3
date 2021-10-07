@@ -63,7 +63,3 @@ export default {
   name: "form-02"
 }
 </script>
-
-<style scoped>
-
-</style>

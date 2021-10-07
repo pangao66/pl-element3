@@ -16,7 +16,7 @@ import { computed, useAttrs } from "vue";
 import { useOptions } from "../hooks/useOptions";
 
 interface Props {
-  modelValue: string | number | boolean
+  modelValue: string | number | boolean | undefined | null
   labelKey?: string
   valueKey?: string
   options: (string | number | boolean)[]

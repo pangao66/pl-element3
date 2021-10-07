@@ -26,7 +26,7 @@ module.exports = {
     // },
 
     nav: [
-      { text: 'Guide', link: '/', activeMatch: '^/$|^/guide/' },
+      { text: '介绍', link: '/', activeMatch: '^/$|^/guide/' },
       {
         text: 'Config Reference',
         link: '/config/basics',
@@ -43,9 +43,9 @@ module.exports = {
       '/': getGuideSidebar()
     }
   },
-  // alias: {
-  //   'ahooks-vue': path.resolve('./packages/'),
-  // },
+  alias: {
+    [`pl-element3`]: path.resolve('./packages'),
+  },
 }
 
 function getGuideSidebar() {
@@ -55,6 +55,7 @@ function getGuideSidebar() {
       children: [
         { text: 'pl-element是什么', link: '/' },
         { text: 'button', link: '/guide/button' },
+        { text: 'input', link: '/guide/input' },
         { text: 'select', link: '/guide/select' },
         { text: 'form', link: '/guide/form' },
       ]

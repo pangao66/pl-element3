@@ -54,7 +54,7 @@ const handleClick = () => {
   start++
   options1.value.push({
     label: '选项' + start,
-    value: start
+    value: '值' + start
   })
 }
 </script>

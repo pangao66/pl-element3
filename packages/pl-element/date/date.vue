@@ -6,7 +6,7 @@ import { computed, useAttrs } from "vue";
 import dayjs from 'dayjs'
 
 const today = dayjs().valueOf()
-console.log(today)
+
 
 // const lastWeek=dayjs((new Date()))
 interface PlDateProps {
@@ -78,7 +78,3 @@ export default {
   name: "pl-date",
 }
 </script>
-
-<style scoped>
-
-</style>

@@ -1,34 +1,45 @@
 <template>
-  <el-input :model-value="props.transfer==='cent'?tempNum:calValue" @input="handleInput" @change="handleChange"
-            v-bind="calAttrs">
-    <template v-for="slot  in $slots" #[slot]>
-      <slot :name="slot"></slot>
+  <el-input
+    :model-value="props.transfer==='cent'?tempNum:calValue"
+    @input="handleInput"
+    @change="handleChange"
+    v-bind="calAttrs"
+  >
+    <template v-for="([key,val]) in Object.entries(calSlots)" #[key]>
+      <slot :name="key">
+        <render-vnode :vnode="val"></render-vnode>
+      </slot>
     </template>
   </el-input>
 </template>
-<script lang="ts" setup>
-import { computed, ref, useAttrs, watch } from "vue";
-import NP from 'number-precision'
-
+<script lang="tsx" setup>
+import { computed, ref, useAttrs, useSlots, watch, h, VNode } from "vue";
+import NP, { float2Fixed } from 'number-precision'
+import RenderVnode from "../renderVnode";
+import { pickBy, identity } from 'lodash-es'
 
 interface Props {
-  modelValue: string | number
-  trim?: boolean
+  modelValue: string | number | undefined | null
+  trim?: 'normal' | 'all' | boolean
   transfer?: ((str: string | number) => string | number) | 'upperCase' | 'lowerCase' | 'number' | 'cent'
   modelModifiers?: Record<string, any>
+  unit?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
   modelValue: '',
-  trim: true
+  trim: true,
+  unit: ''
 })
 const emit = defineEmits<{
-  (e: 'update:modelValue', val: string | number): void
+  (e: 'update:modelValue', val: string | number): void,
+  (e: 'change', val: string | number): void,
+  (e: 'input', val: string | number): void,
 }>()
 const tempNum = ref<string | number>(0)
 watch(() => props.modelValue, (cur, prev) => {
   if (props.transfer === 'cent') {
-    tempNum.value = NP.round(NP.divide(cur, 100) || 0, 2)
+    tempNum.value = NP.round(NP.divide(cur as number, 100) || 0, 2)
   }
 }, { immediate: true })
 const calValue = computed({
@@ -44,7 +55,10 @@ const handleInput = (val: string | number) => {
     tempNum.value = val
     return
   }
-  if (props.trim) {
+  if (props.trim === true || props.trim === 'normal') {
+    val = val.toString().trimLeft()
+  }
+  if (props.trim === 'all') {
     val = val.toString().trim()
   }
   if (props.transfer || props.modelModifiers) {
@@ -62,14 +76,20 @@ const handleInput = (val: string | number) => {
     }
   }
   calValue.value = val
+  emit('input', val)
 }
 const handleChange = (val: number | string) => {
   if (props.transfer === 'cent') {
-    val = NP.times(val, 100)
+    val = NP.round(NP.times(val, 100), 0)
     tempNum.value = val
     calValue.value = val
     emit('update:modelValue', val)
   }
+  if (props.trim) {
+    val = val.toString()
+    emit('update:modelValue', val.trim())
+  }
+  emit('change', val)
 }
 const calAttrs = computed(() => {
   const attrs = useAttrs()
@@ -78,8 +98,15 @@ const calAttrs = computed(() => {
     ...attrs
   }
 })
+const slots = useSlots()
+const calSlots = computed(() => {
+  return pickBy({
+    append: props.unit,
+    ...slots
+  }, identity)
+})
 </script>
-<script lang="ts">
+<script lang="tsx">
 export default {
   name: "pl-input"
 }

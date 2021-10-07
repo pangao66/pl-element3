@@ -1,4 +1,4 @@
-import { ButtonProps, PopconfirmProps, ElMessageBoxOptions } from 'element-plus'
+import { ButtonProps, PopconfirmProps, ElMessageBoxOptions, ElTooltip } from 'element-plus'
 import { PropType } from 'vue'
 
 const props = {
@@ -22,5 +22,8 @@ const props = {
   },
   tipContent: {
     type: String
+  },
+  tipConfig: {
+    type: Object
   }
 }
