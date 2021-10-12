@@ -10,9 +10,7 @@
 防抖在业务中使用非常广泛,比如防止表单重复提交等,这里只需要传一个 `debounce` 属性即可
 
 <demo-block>
-
 <button-01></button-01>
-
 <template v-slot:code>
 
 <<< docs/demos/button/button-01.vue
@@ -33,7 +31,6 @@
 
 <demo-block>
 <button-02></button-02>
-
 <template v-slot:code>
 
 <<< docs/demos/button/button-02.vue
@@ -53,6 +50,7 @@
 :::
 
 <demo-block>
+
 <button-03></button-03>
 
 <template v-slot:code>
@@ -68,6 +66,7 @@
 鼠标放上会有tooltip效果
 
 <demo-block>
+
 <button-04></button-04>
 
 <template v-slot:code>
