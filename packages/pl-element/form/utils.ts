@@ -4,8 +4,16 @@ import { PlRadio } from "../radio";
 import { PlDate } from "../date";
 import { PlCheckbox } from "../checkbox";
 import { PlWrapper } from "../wrapper";
-import { computed, VueElementConstructor } from "vue";
+import { computed, InjectionKey, VueElementConstructor } from "vue";
+import { ElFormContext, ElFormItemContext } from "element-plus/packages/tokens/form";
 
+interface PlFormContext {
+  addFormItemGroup: (prop: string, content: any) => void
+}
+
+export const PlFormKey: InjectionKey<PlFormContext> = Symbol('plForm')
+export const plFormItemKey: InjectionKey<ElFormItemContext> =
+  Symbol('plFormItem')
 const map = {
   input: PlInput,
   select: PlSelect,
@@ -20,11 +28,15 @@ export const getComponent = (comp: keyof typeof map | VueElementConstructor): an
   return comp
 
 }
-export const generateRules = (item:any) => {
+export const generateRules = (item: any) => {
   return computed(() => {
     const triggerText = item.ui === 'input' ? '请输入' : '请选择'
     let list = []
     list.push({ required: item.required, message: `${triggerText}${item.label}`, trigger: 'blur' })
     return list
   })
+}
+export const generatePlaceholder = (item: any) => {
+  const triggerText = item.ui === 'input' ? '请输入' : '请选择'
+  return `${triggerText}${item.label}`
 }

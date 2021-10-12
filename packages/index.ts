@@ -1,8 +1,10 @@
 import { PlButton } from './pl-element/button/index'
 import { PlInput } from "./pl-element/input";
 import { PlSelect } from "./pl-element/select";
+import { PlDate } from "./pl-element/date";
 import { PlWrapper } from "./pl-element/wrapper";
-import { PlForm, PlFormItem } from './pl-element/form/index'
+import { PlForm, PlFormItem, PlSearchForm } from './pl-element/form/index'
+import { PlTable, PlTableColumn } from './pl-element/table'
 // export default PlButton
 import { config } from '../common/config/install'
 import { isObject } from '../common/utils/common'
@@ -13,9 +15,13 @@ const components = [
   PlButton,
   PlSelect,
   PlInput,
+  PlDate,
   PlWrapper,
   PlForm,
-  PlFormItem
+  PlFormItem,
+  PlSearchForm,
+  PlTable,
+  PlTableColumn
 ]
 export const install = (
   app: App<unknown>,
@@ -45,7 +51,15 @@ export const install = (
 }
 export const version = '0.0.1'
 export {
-  PlButton
+  PlButton,
+  PlInput,
+  PlSelect,
+  PlDate,
+  PlForm,
+  PlFormItem,
+  PlSearchForm,
+  PlTable,
+  PlTableColumn
 }
 
 export interface PlElementComponents {
@@ -53,6 +67,10 @@ export interface PlElementComponents {
   PlInput: typeof PlInput,
   PlSelect: typeof PlSelect,
   PlWrapper: typeof PlWrapper,
+  PlDate: typeof PlDate,
   PlForm: typeof PlForm,
-  PlFormItem: typeof PlFormItem
+  PlFormItem: typeof PlFormItem,
+  PlSearchForm: typeof PlSearchForm,
+  PlTable: typeof PlTable,
+  PlTableColumn: typeof PlTableColumn
 }

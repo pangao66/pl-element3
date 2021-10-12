@@ -1,5 +1,12 @@
 <template>
-  <el-form ref="formRef" :model="calState" v-bind="calFormConfig" @submit.prevent="handleSubmit" @reset="handleReset">
+  <el-form
+    class="pl-form"
+    ref="formRef"
+    :model="calState"
+    v-bind="calFormConfig"
+    @submit.prevent="handleSubmit"
+    @reset="handleReset"
+  >
     <pl-form-item
       v-for="item in formItems"
       v-bind="item"
@@ -7,7 +14,6 @@
       v-model="calState[item.prop]"
       @update:form-item="updateFormItem"
     >
-
     </pl-form-item>
     <slot name="submit" v-bind="{handleSubmit,handleReset}">
       <el-form-item>
@@ -19,12 +25,13 @@
 </template>
 <script lang="ts">
 // import mitt from 'mitt'
-import { defineProps, defineComponent, PropType, computed, useAttrs, ref, watch } from "vue";
+import { defineProps, defineComponent, PropType, computed, useAttrs, ref, watch, provide } from "vue";
 import FormItem from "./form-item.vue";
 import PlFormItem from "./form-item.vue";
 import { ElForm } from "element-plus";
 import { merge, set } from 'lodash'
 import { FormItemRule } from "element-plus/packages/components/form/src/form.type";
+import { PlFormKey } from './utils'
 
 export default defineComponent({
   name: 'pl-form',
@@ -104,6 +111,11 @@ export default defineComponent({
         // labelWidth: '120px'
       }
     })
+    provide(PlFormKey, {
+      addFormItemGroup(prop, content) {
+        calState.value[prop].push(content)
+      }
+    })
     return {
       calState,
       handleSubmit,
@@ -116,6 +128,10 @@ export default defineComponent({
 })
 </script>
 
-<style>
-
+<style lang="stylus">
+.pl-form {
+  .el-input {
+    max-width: 80%;
+  }
+}
 </style>

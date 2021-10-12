@@ -2,7 +2,7 @@
 
 `pl-button`是基于`el-button`的二次封装组件,在保留原有组件的所有功能前提下,扩展了一些功能
 
-### 防抖
+## 防抖
 
 
 
@@ -21,7 +21,7 @@
 
 </demo-block> 
 
-### 自动loading
+## 自动loading
 :::tip 提示
 给按钮加上`loading`也是非常多的场景,通常我们需要每个按钮定义一个相关的`loading`变量,非常麻烦,这里无需定义变量,
 只需传入`autoLoading`为`true`即可,如需全屏`loading`,则传递`autoFullscreenLoading`为`true`,
@@ -43,7 +43,7 @@
 
 </demo-block> 
 
-### 二次确认
+## 二次确认
 
 许多操作需要二次确认,一般常用的有`el-popconfirm`和`ElMessageBox.confirm`两种方式,`pl-button`将这两种方式简化集成
 
@@ -64,7 +64,7 @@
 
 </demo-block> 
 
-### tooltip功能
+## tooltip功能
 鼠标放上会有tooltip效果
 
 <demo-block>
@@ -79,12 +79,19 @@
 
 </demo-block> 
 
-## Button Attributes
+## Props
 
-| Attribute   | Description                            | Type    | Accepted Values                                    | Default |
-| ----------- | -------------------------------------- | ------- | -------------------------------------------------- | ------- |
-| debounce    | 是否防抖                                | boolean  | -                                              | -      |
-| confirmType  | 二次确认方式                            | string  |     pop/messagebox      | -       |
+| 参数  | 说明 |   类型 |         值 |默认值|
+| ----- | ---: | -----: | ---------: |------:|
+| debounce  | 是否防抖 | `boolean` | - |-|
+| autoLoading | 是否自动加载loading | `boolean` |  - |-|
+| autoFullscreenLoading | 是否自动加载全屏loading | `boolean` |  - |-|
+| confirmType | 二次确认类型 | `string` |`messagebox|pop`|-|
+| popConfirmConfig | 当confirmType为pop是变成el-popconfirm组件的配置 | `object` |el-popconfirm的属性|-|
+| messageBoxConfig | 当confirmType为messagebox是变成el-messagebox组件的配置 | `object` |el-messagebox的属性|-|
+| tipContent | 展示tooltip功能的内容 | `string` |-|-|
+| tipConfig | 当配置了tipContent变成el-tooltip组件的配置 | `object` |el-tooltip的属性|-|
+| onClick | 当配置了tipContent变成el-tooltip组件的配置 | `(e, done?: () => void) => void\Promise<void> ` |el-tooltip的属性|-|
 
 
 

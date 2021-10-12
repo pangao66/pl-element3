@@ -17,5 +17,5 @@ export default {
     // app.use(PlElement)
     // app.component('demo-block', DemoBlock)
     // app.component('VueClickAwayExample', VueClickAwayExample)
-  }
+  },
 }

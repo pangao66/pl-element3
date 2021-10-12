@@ -5,8 +5,8 @@
     :prop="props.prop"
     v-bind="calFormItemConfig"
   >
-    <template v-if="props.grid&&props.children.length" v-for="item in props.children">
-      <el-col :span="item.span">
+    <template v-if="(props.grid&&props.children.length)||props.canAdd" v-for="item in props.children">
+      <el-col :span="item.span" v-if="props.grid">
         <pl-form-item
           :form-state="props.formState" v-bind="item" :label="item.label"
           :model-value="getValue(item)"
@@ -14,6 +14,11 @@
         >
         </pl-form-item>
       </el-col>
+      <pl-form-item
+        v-else :form-state="props.formState" v-bind="item" :label="item.label"
+        :model-value="getValue(item)"
+        @update:model-value="val=>setModelValue(val,item)"
+      ></pl-form-item>
     </template>
     <component v-else :is="calItem" v-model="calValue" v-bind="calConfig"></component>
   </component>
@@ -26,7 +31,8 @@ import { PlRadio } from "../radio";
 import { PlDate } from "../date";
 import { PlCheckbox } from "../checkbox";
 import { PlWrapper } from "../wrapper";
-import { getValueByPath } from 'element-plus/packages/utils/util'
+import { getValueByPath } from 'element-plus/lib/utils/util'
+import { generatePlaceholder } from "./utils";
 
 
 interface PlFormItemProps {
@@ -50,6 +56,7 @@ interface PlFormItemProps {
   minNum?: number
   maxNum?: number
   events?: any
+  canAdd?: boolean
 }
 
 
@@ -138,15 +145,18 @@ const generateRules = computed(() => {
   return list
 })
 const calConfig = computed(() => {
+  const triggerText = props.ui === 'input' ? '请输入' : '请选择'
   return {
     ...props.uiConfig,
     options: props.options,
-    ...props.events
+    ...props.events,
+    placeholder: `${triggerText}${props.label}`
   }
 })
 const calFormItemConfig = computed(() => {
   return {
     rules: generateRules.value.length ? generateRules.value : undefined,
+    placeholder: generatePlaceholder(props).value ? generatePlaceholder(props).value : undefined,
     ...props.formItemConfig
   }
 })
