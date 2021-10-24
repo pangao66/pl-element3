@@ -1,26 +1,26 @@
 <template>
   <component
-    :is="props.noFormItem?PlWrapper:'el-form-item'"
+    :is="wrapperComponent"
     :label="props.hideLabel?'':props.label"
     :prop="props.prop"
     v-bind="calFormItemConfig"
   >
-    <template v-if="(props.grid&&props.children.length)||props.canAdd" v-for="item in props.children">
-      <el-col :span="item.span" v-if="props.grid">
-        <pl-form-item
-          :form-state="props.formState" v-bind="item" :label="item.label"
-          :model-value="getValue(item)"
-          @update:model-value="val=>setModelValue(val,item)"
-        >
-        </pl-form-item>
-      </el-col>
-      <pl-form-item
-        v-else :form-state="props.formState" v-bind="item" :label="item.label"
-        :model-value="getValue(item)"
-        @update:model-value="val=>setModelValue(val,item)"
-      ></pl-form-item>
-    </template>
-    <component v-else :is="calItem" v-model="calValue" v-bind="calConfig"></component>
+    <slot v-bind="props">
+      <template v-if="props.cols" v-for="item in props.cols">
+        <el-col :span="item.span">
+          <pl-form-item
+            :form-state="props.formState"
+            v-bind="item"
+            :label="item.label"
+            :prop="item.prop"
+            :model-value="getValue(item)"
+            @update:model-value="val=>setModelValue(val,item)"
+          >
+          </pl-form-item>
+        </el-col>
+      </template>
+      <component v-else :is="calItem" v-model="calValue" v-bind="calConfig"></component>
+    </slot>
   </component>
 </template>
 <script lang="ts" setup>
@@ -43,7 +43,7 @@ interface PlFormItemProps {
   required?: boolean
   rules?: any
   grid?: boolean
-  children?: PlFormItemProps[]
+  cols?: PlFormItemProps[]
   span?: number
   noFormItem?: boolean
   hideLabel?: boolean,
@@ -70,7 +70,6 @@ const props = withDefaults(defineProps<PlFormItemProps>(), {
   uiConfig: {},
   required: undefined,
   events: {}
-
 })
 const emit = defineEmits<{
   (e: 'update:modelValue', val: string | number | boolean | object): void,
@@ -160,13 +159,20 @@ const calFormItemConfig = computed(() => {
     ...props.formItemConfig
   }
 })
+const wrapperComponent = computed(() => {
+  if (props.noFormItem || props.ui === 'wrapper') {
+    return PlWrapper
+  }
+  if (props.ui === 'row') {
+    return 'el-row'
+  }
+  return 'el-form-item'
+})
 </script>
 <script lang="ts">
 export default {
   name: "pl-form-item"
 }
 </script>
-
-<style scoped>
-
+<style>
 </style>

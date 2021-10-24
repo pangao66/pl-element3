@@ -1,12 +1,12 @@
 <template>
   <el-form
     ref="plForm"
-    v-model="formState"
-    label-position="right"
+    :model="formState"
     class="pl-search-form"
     :class="[{ advance: advanced }, hasChildClass]"
     @submit.prevent="submit"
-    label-width="120px"
+    @reset="$emit('reset')"
+    v-bind="calFormConfig"
   >
     <el-row>
       <template v-for="(item, index) in formItems" :key="index">
@@ -58,8 +58,12 @@ export default defineComponent({
       default: () => [],
       required: true,
     },
+    formConfig: {
+      type: Object,
+      default: () => ({})
+    }
   },
-  emits: [ 'submit' ],
+  emits: [ 'submit', 'reset' ],
   components: {
     PlFormItem,
   },
@@ -67,7 +71,7 @@ export default defineComponent({
     const formState = ref({});
     const advanced = ref(false);
     const submit = () => {
-      emit('submit')
+      emit('submit', formState.value)
     };
     const hasChildClass = computed(() => {
       let length = props.formItems.length;
@@ -76,6 +80,13 @@ export default defineComponent({
       }
       return `has-items-gt-${length}`;
     });
+    const calFormConfig = computed(() => {
+      return {
+        labelWidth: '120px',
+        labelPosition: 'right',
+        ...props.formConfig
+      }
+    })
     return {
       formState,
       advanced,
@@ -86,6 +97,7 @@ export default defineComponent({
       getComponent,
       hasChildClass,
       generatePlaceholder,
+      calFormConfig
     };
   },
 });

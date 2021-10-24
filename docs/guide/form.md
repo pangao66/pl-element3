@@ -14,6 +14,19 @@
 
 </demo-block> 
 
+## 栅格布局
+<demo-block>
+
+<grid-form></grid-form>
+
+<template v-slot:code>
+
+<<< docs/demos/form/grid-form.vue
+
+</template>
+
+</demo-block> 
+
 ## 表单校验
 
 
@@ -66,5 +79,6 @@ import Form01 from '../demos/form/form-01.vue';
 import Form02 from '../demos/form/form-02.vue';
 import Form03 from '../demos/form/form-03.vue';
 import SearchFormDemo from '../demos/form/search-form-demo.vue';
+import GridForm from '../demos/form/grid-form.vue';
 import DemoBlock from '../components/DemoBlock.vue';
 </script>

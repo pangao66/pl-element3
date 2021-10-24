@@ -13,7 +13,6 @@ import { computed, ref, useAttrs, defineComponent, PropType } from 'vue';
 export default defineComponent({
   name: 'pl-date',
   props: {
-    // ...timePickerDefaultProps,
     modelValue: {
       type: [ Date, Array, String ] as PropType<string | Date | Date[]>,
       default: '',

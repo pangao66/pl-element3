@@ -7,14 +7,18 @@
     @submit.prevent="handleSubmit"
     @reset="handleReset"
   >
-    <pl-form-item
-      v-for="item in formItems"
-      v-bind="item"
-      :form-state="calState"
-      v-model="calState[item.prop]"
-      @update:form-item="updateFormItem"
-    >
-    </pl-form-item>
+    <template v-for="item in formItems">
+      <pl-form-item
+        v-if="!item.slotName&&!item.render"
+        v-bind="item"
+        :form-state="calState"
+        v-model="calState[item.prop]"
+        @update:form-item="updateFormItem"
+      >
+      </pl-form-item>
+      <slot v-else :name="item.slotName"></slot>
+      <render-vnode v-if="item.render" :vnode="item.render"></render-vnode>
+    </template>
     <slot name="submit" v-bind="{handleSubmit,handleReset}">
       <el-form-item>
         <el-button type="primary" native-type="submit">确认</el-button>
@@ -24,18 +28,18 @@
   </el-form>
 </template>
 <script lang="ts">
-// import mitt from 'mitt'
 import { defineProps, defineComponent, PropType, computed, useAttrs, ref, watch, provide } from "vue";
 import FormItem from "./form-item.vue";
 import PlFormItem from "./form-item.vue";
 import { ElForm } from "element-plus";
 import { merge, set } from 'lodash'
 import { FormItemRule } from "element-plus/packages/components/form/src/form.type";
-import { PlFormKey } from './utils'
+import { PlFormKey, getComponent } from './utils'
+import RenderVnode from "../renderVnode";
 
 export default defineComponent({
   name: 'pl-form',
-  components: { PlFormItem, FormItem },
+  components: { RenderVnode, PlFormItem, FormItem },
   emits: [ 'update:modelValue', 'submit', 'validateError' ],
   props: {
     modelValue: {
@@ -47,6 +51,10 @@ export default defineComponent({
       default: () => []
     },
     rules: [ Object, Array ] as PropType<FormItemRule | FormItemRule[]>,
+    formConfig: {
+      type: Object,
+      default: () => ({})
+    },
   },
   setup(props, { emit }) {
     const formState = ref({})
@@ -107,8 +115,8 @@ export default defineComponent({
     }
     const calFormConfig = computed(() => {
       return {
-        ...useAttrs(),
-        // labelWidth: '120px'
+        labelWidth: '120px',
+        ...props.formConfig,
       }
     })
     provide(PlFormKey, {
@@ -122,16 +130,17 @@ export default defineComponent({
       handleReset,
       formRef,
       updateFormItem,
-      calFormConfig
+      calFormConfig,
+      getComponent
     }
   }
 })
 </script>
-
 <style lang="stylus">
 .pl-form {
-  .el-input {
-    max-width: 80%;
+  .el-input, .el-select, .el-date-editor.el-input, .el-date-editor.el-input__inner {
+    max-width: 500px;
+    width: 100%
   }
 }
 </style>

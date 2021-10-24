@@ -1,8 +1,10 @@
 <template>
   <pl-form v-model="form" :form-items="formItems" @submit="handleSubmit" :form-config="{labelWidth:'120px'}">
     <template #submit>
-      <el-button type="primary" native-type="submit">立即创建</el-button>
-      <el-button>取消</el-button>
+      <el-form-item>
+        <el-button type="primary" native-type="submit">立即创建</el-button>
+        <el-button>取消</el-button>
+      </el-form-item>
     </template>
   </pl-form>
 </template>

@@ -85,12 +85,12 @@
 | debounce  | 是否防抖 | `boolean` | - |-|
 | autoLoading | 是否自动加载loading | `boolean` |  - |-|
 | autoFullscreenLoading | 是否自动加载全屏loading | `boolean` |  - |-|
-| confirmType | 二次确认类型 | `string` |`messagebox|pop`|-|
+| confirmType | 二次确认类型 | `string` |`messagebox\pop`|-|
 | popConfirmConfig | 当confirmType为pop是变成el-popconfirm组件的配置 | `object` |el-popconfirm的属性|-|
 | messageBoxConfig | 当confirmType为messagebox是变成el-messagebox组件的配置 | `object` |el-messagebox的属性|-|
 | tipContent | 展示tooltip功能的内容 | `string` |-|-|
 | tipConfig | 当配置了tipContent变成el-tooltip组件的配置 | `object` |el-tooltip的属性|-|
-| onClick | 当配置了tipContent变成el-tooltip组件的配置 | `(e, done?: () => void) => void\Promise<void> ` |el-tooltip的属性|-|
+| onClick | 当配置了tipContent变成el-tooltip组件的配置 | ` (e, done?: () => void) => void\|Promise<void> ` | `el-tooltip`的属性|-|
 
 
 

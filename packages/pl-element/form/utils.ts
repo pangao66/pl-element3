@@ -19,7 +19,10 @@ const map = {
   select: PlSelect,
   radio: PlRadio,
   checkbox: PlCheckbox,
-  date: PlDate
+  date: PlDate,
+  switch: 'el-switch',
+  time: 'el-time-picker',
+  col: 'el-col'
 }
 export const getComponent = (comp: keyof typeof map | VueElementConstructor): any => {
   if (typeof comp === 'string') {

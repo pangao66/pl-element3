@@ -5,8 +5,11 @@
       :key="index"
       v-bind="item"
     >
-      <template v-if="item.slotName" #[item.slotName]="scope">
-        <slot :name="item.slotName" v-bind="scope || {}"></slot>
+      <template v-if="item.cell&&typeof item.cell==='string'" #[item.cell]="scope">
+        <slot :name="item.cell" v-bind="scope || {}"></slot>
+      </template>
+      <template v-if="item.header&&typeof item.header==='string'" #[item.header]="scope">
+        <slot :name="item.header" v-bind="scope || {}"></slot>
       </template>
     </pl-table-column>
   </el-table>

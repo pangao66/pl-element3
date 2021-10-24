@@ -14,7 +14,7 @@ module.exports = {
     [`pl-element3`]: resolve('./packages'),
   },
   themeConfig: {
-    repo: 'vuejs/vitepress',
+    repo: 'pangao66/pl-element3',
     docsDir: 'docs',
 
     editLinks: true,

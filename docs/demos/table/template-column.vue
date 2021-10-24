@@ -21,13 +21,31 @@
       <el-button type="primary" @click="handleEdit($index, row)">编辑</el-button>
       <el-button type="danger" @click="handleDelete($index, row)">删除</el-button>
     </template>
+    <template #edit-title="{row}">
+      <el-input
+        v-model="keywords"
+        size="mini"
+        placeholder="输入关键字搜索"
+      />
+    </template>
   </pl-table>
 </template>
-<script lang="ts" setup>
+<script lang="tsx" setup>
+import { ref } from 'vue'
+
+const keywords = ref('')
 const columns = [
-  { label: '日期', slotName: 'date' },
-  { label: '姓名', slotName: 'name' },
-  { label: '操作', slotName: 'edit' },
+  { label: '日期', cell: 'date' },
+  { label: '姓名', cell: 'name' },
+  { label: '操作', cell: 'edit', header: 'edit-title' },
+  {
+    header: () => {
+      return <span>这是自定义表头jsx写法</span>
+    },
+    cell: ({ $index }) => {
+      return <span>这是自定义列写法第{$index}行</span>
+    }
+  },
 ];
 const data = [
   {
@@ -60,7 +78,7 @@ function handleDelete(index, row) {
   console.log(index, row);
 }
 </script>
-<script lang="ts">
+<script lang="tsx">
 export default {
   name: 'template-column',
 };

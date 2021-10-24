@@ -15,10 +15,8 @@
       </el-button>
       <slot name="content"/>
     </template>
-
   </component>
 </template>
-
 <script lang="ts">
 import { computed, defineComponent, PropType, ref } from 'vue'
 import PlWrapper from "../wrapper/wrapper.vue";
@@ -161,12 +159,9 @@ export default defineComponent({
           }
         )
         handlePromiseCallBack(r)
-      } else {
-        // emit('confirm', e, hideLoading)
       }
     }
     const handlePromiseCallBack = (res: Promise<void> | undefined) => {
-      console.log(res)
       if (isPromise(res)) {
         res.finally(() => {
           hideLoading()
@@ -205,7 +200,5 @@ export default defineComponent({
   }
 })
 </script>
-
 <style>
-
 </style>
