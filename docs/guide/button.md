@@ -4,36 +4,41 @@
 
 ## 防抖
 
-
-
 一段时间内重复点击会有防抖效果
 防抖在业务中使用非常广泛,比如防止表单重复提交等,这里只需要传一个 `debounce` 属性即可
+
+
+
+
+
+
 
 <demo-block>
 <button-01></button-01>
 <template v-slot:code>
 
-<<< docs/demos/button/button-01.vue
+<<< @/demos/button/button-01.vue
 
 </template>
 
 </demo-block> 
 
 ## 自动loading
+
 :::tip 提示
 给按钮加上`loading`也是非常多的场景,通常我们需要每个按钮定义一个相关的`loading`变量,非常麻烦,这里无需定义变量,
 只需传入`autoLoading`为`true`即可,如需全屏`loading`,则传递`autoFullscreenLoading`为`true`,
 设置了`autoLoading`或`autoFullscreenLoading`之后,点击了按钮则会自动加载`loading`,要让`loading`消失有两种方法
-- `click`事件传递一个`promise`,`promise`执行后会自动消失`loading`
--  启用第二个参数,第二个参数为回调函数,执行回调函数即可消失`loading`
-:::
 
+- `click`事件传递一个`promise`,`promise`执行后会自动消失`loading`
+- 启用第二个参数,第二个参数为回调函数,执行回调函数即可消失`loading`
+  :::
 
 <demo-block>
 <button-02></button-02>
 <template v-slot:code>
 
-<<< docs/demos/button/button-02.vue
+<<< @/demos/button/button-02.vue
 
 </template>
 
@@ -46,7 +51,8 @@
 
 :::warning 注意
 使用二次确认功能,
-此时`autoFullscreenLoading功能将强制开启`,点击确认后会`自动全屏loading`,消失`loading`的方法跟上面的一致,`on-confirm`传递一个`promise`或者使用回调函数即可
+此时`autoFullscreenLoading功能将强制开启`,点击确认后会`自动全屏loading`,消失`loading`的方法跟上面的一致,`on-confirm`
+传递一个`promise`或者使用回调函数即可
 :::
 
 <demo-block>
@@ -55,7 +61,7 @@
 
 <template v-slot:code>
 
-<<< docs/demos/button/button-03.vue
+<<< @/demos/button/button-03.vue
 
 </template>
 
@@ -63,6 +69,7 @@
 </demo-block> 
 
 ## tooltip功能
+
 鼠标放上会有tooltip效果
 
 <demo-block>
@@ -71,7 +78,7 @@
 
 <template v-slot:code>
 
-<<< docs/demos/button/button-04.vue
+<<< @/demos/button/button-04.vue
 
 </template>
 
@@ -80,20 +87,17 @@
 
 ## Props
 
-| 参数  | 说明 |   类型 |         值 |默认值|
-| ----- | ---: | -----: | ---------: |------:|
-| debounce  | 是否防抖 | `boolean` | - |-|
-| autoLoading | 是否自动加载loading | `boolean` |  - |-|
-| autoFullscreenLoading | 是否自动加载全屏loading | `boolean` |  - |-|
-| confirmType | 二次确认类型 | `string` |`messagebox\pop`|-|
-| popConfirmConfig | 当confirmType为pop是变成el-popconfirm组件的配置 | `object` |el-popconfirm的属性|-|
-| messageBoxConfig | 当confirmType为messagebox是变成el-messagebox组件的配置 | `object` |el-messagebox的属性|-|
-| tipContent | 展示tooltip功能的内容 | `string` |-|-|
-| tipConfig | 当配置了tipContent变成el-tooltip组件的配置 | `object` |el-tooltip的属性|-|
-| onClick | 当配置了tipContent变成el-tooltip组件的配置 | ` (e, done?: () => void) => void\|Promise<void> ` | `el-tooltip`的属性|-|
-
-
-
+| 参数                    |                                           说明 |                                                类型 |                值 | 默认值 |
+|-----------------------|---------------------------------------------:|--------------------------------------------------:|-----------------:|----:|
+| debounce              |                                         是否防抖 |                                         `boolean` |                - |   - |
+| autoLoading           |                                是否自动加载loading |                                         `boolean` |                - |   - |
+| autoFullscreenLoading |                              是否自动加载全屏loading |                                         `boolean` |                - |   - |
+| confirmType           |                                       二次确认类型 |                                          `string` | `messagebox\pop` |   - |
+| popConfirmConfig      |        当confirmType为pop是变成el-popconfirm组件的配置 |                                          `object` | el-popconfirm的属性 |   - |
+| messageBoxConfig      | 当confirmType为messagebox是变成el-messagebox组件的配置 |                                          `object` | el-messagebox的属性 |   - |
+| tipContent            |                               展示tooltip功能的内容 |                                          `string` |                - |   - |
+| tipConfig             |              当配置了tipContent变成el-tooltip组件的配置 |                                          `object` |    el-tooltip的属性 |   - |
+| onClick               |              当配置了tipContent变成el-tooltip组件的配置 | ` (e, done?: () => void) => void\|Promise<void> ` |  `el-tooltip`的属性 |   - |
 
 <script setup>
 import {ref} from 'vue';
@@ -102,4 +106,6 @@ import Button02 from '../demos/button/button-02.vue';
 import Button03 from '../demos/button/button-03.vue';
 import Button04 from '../demos/button/button-04.vue';
 import DemoBlock from '../components/DemoBlock.vue';
+import Story from '../components/Story.vue'
+import  {ElButton} from 'element-plus'
 </script>

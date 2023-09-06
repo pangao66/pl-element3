@@ -32,7 +32,7 @@ import { defineProps, defineComponent, PropType, computed, useAttrs, ref, watch,
 import FormItem from "./form-item.vue";
 import PlFormItem from "./form-item.vue";
 import { ElForm } from "element-plus";
-import { merge, set } from 'lodash'
+import { merge, set } from 'lodash-es'
 import { FormItemRule } from "element-plus/packages/components/form/src/form.type";
 import { PlFormKey, getComponent } from './utils'
 import RenderVnode from "../renderVnode";

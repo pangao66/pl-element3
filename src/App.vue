@@ -1,5 +1,6 @@
 <script setup>
 import locale from 'element-plus/lib/locale/lang/zh-cn';
+import About from './views/About.vue';
 </script>
 <template>
   <el-config-provider :locale="locale">

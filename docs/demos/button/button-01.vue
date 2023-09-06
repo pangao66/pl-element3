@@ -4,7 +4,7 @@
   </pl-button>
 </template>
 <script lang="ts" setup>
-import { ElMessage } from "element-plus/lib/components/message";
+import { ElMessage } from "element-plus";
 
 const handleClick = () => {
   ElMessage.warning('500ms内只能点击一次')
@@ -14,6 +14,5 @@ const handleClick = () => {
 export default {
   name: 'demo-01'
 }
-export const testvar = 1
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="data" v-bind="config">
+  <el-table ref="tableRef" :data="data" v-bind="config">
     <pl-table-column
       v-for="(item, index) in columns"
       :key="index"
@@ -15,16 +15,15 @@
   </el-table>
 </template>
 <script lang="ts">
-import { defineComponent, computed, PropType } from 'vue';
+import { defineComponent, computed, PropType, onMounted, nextTick, ref } from 'vue';
 import PlTableColumn from './pl-table-column.vue';
-// import defaultProps from 'element-plus/packages/components/table/src/table/defaults';
-// import { TableColumn } from 'element-plus/packages/components/table/src/table-column/defaults';
+// import { addResizeListener, removeResizeListener } from 'element-plus/lib/utils/dom/resize-event'
+import { useResizeObserver } from '@vueuse/core'
 
 export default defineComponent({
   name: 'pl-table',
   components: { PlTableColumn },
   props: {
-    // ...defaultProps,
     tableConfig: {
       type: Object
     },
@@ -35,8 +34,31 @@ export default defineComponent({
     columns: {
       type: Array,
     },
+    autoHeight: {
+      type: Boolean,
+      default: false
+    }
   },
   setup(props, { attrs }) {
+    const tableRef = ref(null)
+    const setHeight = () => {
+      const table = tableRef.value
+    }
+    onMounted(() => {
+      nextTick(() => {
+        if (props.autoHeight) {
+          // addResizeListener(window.document.body, setHeight)
+          // addResizeListener(this.$refs.table.$el, setHeight)
+          useResizeObserver(window.document.body, (entries) => {
+            const entry = entries[0]
+            const { width, height } = entry.contentRect
+            // text.value = `width: ${width}, height: ${height}`
+            setHeight(height)
+          })
+
+        }
+      })
+    })
     const config = computed(() => {
       return {
         ...attrs,
@@ -44,9 +66,9 @@ export default defineComponent({
     });
     return {
       config,
+      tableRef
     };
   },
 });
 </script>
-
-<style scoped></style>
+<style></style>

@@ -24,15 +24,15 @@
   </component>
 </template>
 <script lang="ts" setup>
-import { computed, useAttrs, inject } from "vue";
-import { PlInput } from "../input";
-import { PlSelect } from "../select";
-import { PlRadio } from "../radio";
-import { PlDate } from "../date";
-import { PlCheckbox } from "../checkbox";
-import { PlWrapper } from "../wrapper";
-import { getValueByPath } from 'element-plus/lib/utils/util'
-import { generatePlaceholder } from "./utils";
+import { computed, useAttrs, inject } from 'vue';
+import { PlInput } from '../input';
+import { PlSelect } from '../select';
+import { PlRadio } from '../radio';
+import { PlDate } from '../date';
+import { PlCheckbox } from '../checkbox';
+import { PlWrapper } from '../wrapper';
+import { get } from 'lodash-es'
+import { generatePlaceholder } from './utils';
 
 
 interface PlFormItemProps {
@@ -69,7 +69,7 @@ const props = withDefaults(defineProps<PlFormItemProps>(), {
   formItemConfig: {},
   uiConfig: {},
   required: undefined,
-  events: {}
+  events: {},
 })
 const emit = defineEmits<{
   (e: 'update:modelValue', val: string | number | boolean | object): void,
@@ -83,7 +83,7 @@ const map = {
   date: PlDate,
   switch: 'el-switch',
   time: 'el-time-picker',
-  col: 'el-col'
+  col: 'el-col',
 }
 
 const calItem = computed(() => {
@@ -93,10 +93,10 @@ const calValue = computed({
   get: () => props.modelValue,
   set: (val: any) => {
     emit('update:modelValue', val)
-  }
+  },
 })
 const getValue = (item) => {
-  return getValueByPath(props.formState, item.prop)
+  return get(props.formState, item.prop)
 }
 const setModelValue = (val, item) => {
   emit('update:formItem', val, item.prop)
@@ -117,7 +117,7 @@ const generateRules = computed(() => {
       required: props.required,
       message: `${triggerText}${props.label}`,
       type: type,
-      trigger
+      trigger,
     })
   }
   if (props.rules && Array.isArray(props.rules)) {
@@ -126,7 +126,7 @@ const generateRules = computed(() => {
   if (props.min && props.max) {
     list.push({
       message: `长度在${props.min}到${props.max}个字符`,
-      trigger
+      trigger,
     })
   }
   if (props.min && !props.max) {
@@ -149,14 +149,14 @@ const calConfig = computed(() => {
     ...props.uiConfig,
     options: props.options,
     ...props.events,
-    placeholder: `${triggerText}${props.label}`
+    placeholder: `${triggerText}${props.label}`,
   }
 })
 const calFormItemConfig = computed(() => {
   return {
     rules: generateRules.value.length ? generateRules.value : undefined,
-    placeholder: generatePlaceholder(props).value ? generatePlaceholder(props).value : undefined,
-    ...props.formItemConfig
+    placeholder: generatePlaceholder(props),
+    ...props.formItemConfig,
   }
 })
 const wrapperComponent = computed(() => {
@@ -171,7 +171,7 @@ const wrapperComponent = computed(() => {
 </script>
 <script lang="ts">
 export default {
-  name: "pl-form-item"
+  name: 'pl-form-item',
 }
 </script>
 <style>

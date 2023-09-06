@@ -14,14 +14,19 @@
 </template>
 <script lang="ts" setup>
 import PlButton from "../../packages/pl-element/button/button.vue";
-import { ElMessage } from "element-plus/lib/components/message";
+import { ElMessage } from "element-plus";
 
 
-const handClick = (done: () => void) => {
+const handClick = (e: any, done: () => void) => {
   setTimeout(() => {
     done();
   }, 1000);
 };
+const handleConfirm = (done: () => void) => {
+  setTimeout(() => {
+    done();
+  }, 1000);
+}
 const handleDebounce = () => {
   ElMessage.warning('500ms内只能点击一次')
 }
@@ -31,7 +36,5 @@ export default {
   name: "button-demo"
 };
 </script>
-
 <style>
-
 </style>

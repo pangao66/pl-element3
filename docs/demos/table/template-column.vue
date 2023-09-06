@@ -12,7 +12,7 @@
         </template>
         <template #reference>
           <div class="name-wrapper">
-            <el-tag size="medium">{{ row.name }}</el-tag>
+            <el-tag>{{ row.name }}</el-tag>
           </div>
         </template>
       </el-popover>
@@ -24,7 +24,6 @@
     <template #edit-title="{row}">
       <el-input
         v-model="keywords"
-        size="mini"
         placeholder="输入关键字搜索"
       />
     </template>
@@ -83,5 +82,4 @@ export default {
   name: 'template-column',
 };
 </script>
-
 <style></style>

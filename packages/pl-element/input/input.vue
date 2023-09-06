@@ -13,9 +13,9 @@
   </el-input>
 </template>
 <script lang="tsx" setup>
-import { computed, ref, useAttrs, useSlots, watch, h, VNode } from "vue";
+import { computed, ref, useAttrs, useSlots, watch, h, VNode } from 'vue';
 import NP, { float2Fixed } from 'number-precision'
-import RenderVnode from "../renderVnode";
+import RenderVnode from '../renderVnode';
 import { pickBy, identity } from 'lodash-es'
 
 interface Props {
@@ -29,7 +29,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   modelValue: '',
   trim: true,
-  unit: ''
+  unit: '',
 })
 const emit = defineEmits<{
   (e: 'update:modelValue', val: string | number): void,
@@ -48,7 +48,7 @@ const calValue = computed({
   },
   set: (val: string | number) => {
     emit('update:modelValue', val)
-  }
+  },
 })
 const handleInput = (val: string | number) => {
   if (props.transfer === 'cent') {
@@ -56,7 +56,7 @@ const handleInput = (val: string | number) => {
     return
   }
   if (props.trim === true || props.trim === 'normal') {
-    val = val.toString().trimLeft()
+    val = val.toString().trimStart()
   }
   if (props.trim === 'all') {
     val = val.toString().trim()
@@ -95,23 +95,21 @@ const calAttrs = computed(() => {
   const attrs = useAttrs()
   return {
     clearable: true,
-    ...attrs
+    ...attrs,
   }
 })
 const slots = useSlots()
 const calSlots = computed(() => {
   return pickBy({
     append: props.unit,
-    ...slots
+    ...slots,
   }, identity)
 })
 </script>
 <script lang="tsx">
 export default {
-  name: "pl-input"
+  name: 'pl-input',
 }
 </script>
-
 <style>
-
 </style>

@@ -8,20 +8,21 @@
 
 <template v-slot:code>
 
-<<< docs/demos/form/form-01.vue
+<<< @/demos/form/form-01.vue
 
 </template>
 
 </demo-block> 
 
 ## 栅格布局
+
 <demo-block>
 
 <grid-form></grid-form>
 
 <template v-slot:code>
 
-<<< docs/demos/form/grid-form.vue
+<<< @/demos/form/grid-form.vue
 
 </template>
 
@@ -29,20 +30,20 @@
 
 ## 表单校验
 
-
 <demo-block>
 
 <form-02></form-02>
 
 <template v-slot:code>
 
-<<< docs/demos/form/form-02.vue
+<<< @/demos/form/form-02.vue
 
 </template>
 
 </demo-block> 
 
 ## 动态规则和联动
+
 由于`vue`的响应式,我们可以使用`computed`非常容易的实现动态规则动态属性和数据联动
 
 选择性别的时候,会联动年龄输入框的值和disabled属性以及required规则
@@ -53,20 +54,21 @@
 
 <template v-slot:code>
 
-<<< docs/demos/form/form-03.vue
+<<< @/demos/form/form-03.vue
 
 </template>
 
 </demo-block> 
 
 ## 查询表单
+
 <demo-block>
 
 <search-form-demo></search-form-demo>
 
 <template v-slot:code>
 
-<<< docs/demos/form/search-form-demo.vue
+<<< @/demos/form/search-form-demo.vue
 
 </template>
 

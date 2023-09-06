@@ -1,9 +1,10 @@
 <template>
   <pl-table :data="tableData" :columns="columns">
-
   </pl-table>
 </template>
 <script lang="ts" setup>
+const list = Array.from(Array(99999).keys())
+
 const tableData = [ {
   date: '2016-05-02',
   name: '王小虎',
@@ -32,7 +33,5 @@ export default {
   name: "title-desc-table"
 }
 </script>
-
 <style>
-
 </style>

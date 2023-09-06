@@ -1,11 +1,11 @@
-import { PlInput } from "../input";
-import { PlSelect } from "../select";
-import { PlRadio } from "../radio";
-import { PlDate } from "../date";
-import { PlCheckbox } from "../checkbox";
-import { PlWrapper } from "../wrapper";
-import { computed, InjectionKey, VueElementConstructor } from "vue";
-import { ElFormContext, ElFormItemContext } from "element-plus/packages/tokens/form";
+import { PlInput } from '../input';
+import { PlSelect } from '../select';
+import { PlRadio } from '../radio';
+import { PlDate } from '../date';
+import { PlCheckbox } from '../checkbox';
+import { PlWrapper } from '../wrapper';
+import { computed, InjectionKey, VueElementConstructor } from 'vue';
+import { ElFormContext, ElFormItemContext } from 'element-plus/es/tokens/form';
 
 interface PlFormContext {
   addFormItemGroup: (prop: string, content: any) => void
@@ -22,7 +22,7 @@ const map = {
   date: PlDate,
   switch: 'el-switch',
   time: 'el-time-picker',
-  col: 'el-col'
+  col: 'el-col',
 }
 export const getComponent = (comp: keyof typeof map | VueElementConstructor): any => {
   if (typeof comp === 'string') {

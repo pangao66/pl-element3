@@ -1,4 +1,4 @@
-// import Element from 'main/index.js';
+// import Element from 'main/index.ts';
 import ElementPlus from 'element-plus'
 // import { stripScript, stripStyle, stripTemplate } from './util.js'
 
@@ -31,7 +31,7 @@ export default {
       const data = {
         js: jsTpl,
         css: cssTpl,
-        html: resourcesTpl
+        html: resourcesTpl,
       }
       const form = document.getElementById('fiddle-form') || document.createElement('form')
       while (form.firstChild) {
@@ -50,6 +50,6 @@ export default {
       document.body.appendChild(form)
 
       form.submit()
-    }
-  }
+    },
+  },
 }
