@@ -22,10 +22,8 @@ interface Props {
   modelValue: string | number | undefined | null
   trim?: 'normal' | 'all' | boolean
   transfer?: ((str: string | number) => string | number) | 'upperCase' | 'lowerCase' | 'number' | 'cent'
-  modelModifiers?: Record<string, any>
   unit?: string
 }
-
 const props = withDefaults(defineProps<Props>(), {
   modelValue: '',
   trim: true,

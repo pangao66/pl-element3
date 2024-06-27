@@ -2,7 +2,6 @@
   <pl-button auto-loading @click="handleClick">
     自动loading
   </pl-button>
-  <pl-button auto-loading @click="handleClickCallBack">自动loading</pl-button>
 </template>
 <script lang="ts" setup>
 import { ElMessage } from 'element-plus'
@@ -18,12 +17,6 @@ const handleClick = async () => {
   ElMessage.info('开始loading')
   await sleep(2000)
   ElMessage.info('结束loading')
-}
-// 回调方式
-const handleClickCallBack = (e, done) => {
-  setTimeout(() => {
-    done()
-  }, 2000)
 }
 </script>
 <script lang="ts">

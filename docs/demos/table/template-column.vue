@@ -23,15 +23,17 @@
     </template>
     <template #edit-title="{row}">
       <el-input
-        v-model="keywords"
-        placeholder="输入关键字搜索"
+          v-model="keywords"
+          placeholder="输入关键字搜索"
       />
     </template>
   </pl-table>
 </template>
 <script lang="tsx" setup>
 import { ref } from 'vue'
-
+defineOptions({
+  name: 'template-column',
+})
 const keywords = ref('')
 const columns = [
   { label: '日期', cell: 'date' },
@@ -45,7 +47,7 @@ const columns = [
       return <span>这是自定义列写法第{$index}行</span>
     }
   },
-];
+]
 const data = [
   {
     date: '2016-05-02',
@@ -67,19 +69,14 @@ const data = [
     name: '王小虎',
     address: '上海市普陀区金沙江路 1516 弄',
   },
-];
+]
 
 function handleEdit(index, row) {
-  console.log(index, row);
+  console.log(index, row)
 }
 
 function handleDelete(index, row) {
-  console.log(index, row);
+  console.log(index, row)
 }
-</script>
-<script lang="tsx">
-export default {
-  name: 'template-column',
-};
 </script>
 <style></style>

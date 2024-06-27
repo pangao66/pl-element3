@@ -1,12 +1,12 @@
-import { defineConfig } from 'vite';
-import vue from '@vitejs/plugin-vue';
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
 // import importElementPlus from 'vite-plugin-element-plus';
 import vueJsx from '@vitejs/plugin-vue-jsx'
-import * as path from 'path';
+import * as path from 'path'
 import dts from 'vite-plugin-dts'
 import ElementPlus from 'unplugin-element-plus/vite'
-import { writeFileSync } from 'fs';
-import { resolve, join } from 'path';
+import { writeFileSync } from 'fs'
+import { resolve, join } from 'path'
 import VueTypeImports from 'vite-plugin-vue-type-imports'
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -33,7 +33,7 @@ export default defineConfig({
           writeFileSync(
             join(options.dir, 'package.json'),
             JSON.stringify({ type: 'commonjs' })
-          );
+          )
         }
       },
     },
@@ -44,7 +44,8 @@ export default defineConfig({
       stylus: {
         // additionalData: `@import "/assets/stylus/variable.styl";`,
       }
-    }
+    },
+    devSourcemap: true,
   },
   build: {
     lib: {
@@ -75,4 +76,4 @@ export default defineConfig({
       }
     }
   }
-});
+})

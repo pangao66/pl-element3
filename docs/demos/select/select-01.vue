@@ -11,8 +11,11 @@
   <pl-select :options="options5" v-model="select5" is-bind-object value-key="value"></pl-select>
 </template>
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref } from 'vue'
 
+defineOptions({
+  name: 'select-demo',
+})
 
 const select1 = ref('')
 const select2 = ref('')
@@ -33,7 +36,7 @@ const options2 = {
   选项4: '龙须面',
   选项5: '北京烤鸭'
 }
-const options3 = [ '黄金糕', '双皮奶', '蚵仔煎', '龙须面', '北京烤鸭' ]
+const options3 = ['黄金糕', '双皮奶', '蚵仔煎', '龙须面', '北京烤鸭']
 const options4 = [
   { id: 1, name: '黄金糕' },
   { id: 2, name: '双皮奶' },
@@ -47,22 +50,4 @@ const options5 = [
   { label: '测试', value: 'testers' },
   { label: '产品', value: 'product' }
 ]
-// let start = 5
-// const handleClick = () => {
-//   start++
-//   options1.value.push({
-//     label: '选项' + start,
-//     value: start
-//   })
-// }
 </script>
-<script lang="ts">
-export default {
-  name: "select-demo",
-
-}
-</script>
-
-<style>
-
-</style>

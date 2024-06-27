@@ -8,7 +8,7 @@
 
 <template v-slot:code>
 
-<<< docs/demos/date/between-date.vue
+<<< @/demos/date/between-date.vue
 
 </template>
 

@@ -1,8 +1,8 @@
 import { resolve } from 'path'
 import { whyframe } from '@whyframe/core'
 import { whyframeVue } from '@whyframe/vue'
-import { defineConfig } from "vitepress";
-import vueJsx from "@vitejs/plugin-vue-jsx";
+import { defineConfig } from 'vitepress'
+import vueJsx from '@vitejs/plugin-vue-jsx'
 import inspect from 'vite-plugin-inspect'
 
 export default defineConfig({
@@ -24,7 +24,9 @@ export default defineConfig({
 
     editLinks: true,
     editLinkText: 'Edit this page on GitHub',
-    lastUpdated: 'Last Updated',
+    lastUpdated: {
+      text: '最近更新'
+    },
 
     // algolia: {
     //   apiKey: 'c57105e511faa5558547599f120ceeba',

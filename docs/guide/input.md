@@ -10,7 +10,7 @@
 
 <template v-slot:code>
 
-<<< docs/demos/input/input-01.vue
+<<< @/demos/input/input-01.vue
 
 </template>
 
@@ -26,7 +26,7 @@
 
 <template v-slot:code>
 
-<<< docs/demos/input/input-02.vue
+<<< @/demos/input/input-02.vue
 
 </template>
 
@@ -40,7 +40,7 @@
 
 <template v-slot:code>
 
-<<< docs/demos/input/input-03.vue
+<<< @/demos/input/input-03.vue
 
 </template>
 

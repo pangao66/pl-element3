@@ -8,7 +8,7 @@
 
 <template v-slot:code>
 
-<<< docs/demos/select/select-01.vue
+<<< @/demos/select/select-01.vue
 
 </template>
 

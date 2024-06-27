@@ -9,7 +9,7 @@
 
 <template v-slot:code>
 
-<<< docs/demos/search-table/search-table.vue
+<<< @/demos/search-table/search-table.vue
 
 </template>
 

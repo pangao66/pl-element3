@@ -2,8 +2,11 @@
   <pl-table :data="tableData" :columns="columns"></pl-table>
 </template>
 <script lang="ts" setup>
+defineOptions({
+  name: 'nesting-header-table'
+})
 const columns = [
-  { label: '日期', prop: "date" },
+  { label: '日期', prop: 'date' },
   {
     label: '配送信息',
     children: [
@@ -78,12 +81,3 @@ const tableData = [
   }
 ]
 </script>
-<script lang="ts">
-export default {
-  name: "nesting-header-table"
-}
-</script>
-
-<style scoped>
-
-</style>

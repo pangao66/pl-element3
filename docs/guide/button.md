@@ -106,6 +106,6 @@ import Button02 from '../demos/button/button-02.vue';
 import Button03 from '../demos/button/button-03.vue';
 import Button04 from '../demos/button/button-04.vue';
 import DemoBlock from '../components/DemoBlock.vue';
-import Story from '../components/Story.vue'
-import  {ElButton} from 'element-plus'
+import Story from '../components/Story.vue';
+import  {ElButton} from 'element-plus';
 </script>

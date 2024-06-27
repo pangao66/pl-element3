@@ -4,6 +4,11 @@
 
 <demo-block>
 <base-table></base-table>
+<template v-slot:code>
+
+<<< @/demos/table/base-table.vue
+
+</template>
 </demo-block>
 
 ## 自定义列和自定义标题
